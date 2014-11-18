@@ -7,7 +7,7 @@ import simplejson
 from django.contrib.auth.decorators import login_required
 import csv
 from django.http import HttpResponse
-from MonitorApp.models import MonitorappChoice
+
 
 
 import datetime
