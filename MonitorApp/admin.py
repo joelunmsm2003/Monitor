@@ -1,4 +1,4 @@
 from django.contrib import admin
-from MonitorApp.models import Question
+from MonitorApp.models import MonitorappChoice
 
-admin.site.register(Question)
+admin.site.register(MonitorappChoice)

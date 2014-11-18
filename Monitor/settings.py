@@ -26,6 +26,22 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))
+
+TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, '../templates'),)
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'Monitor',
+        'USER': 'root',
+        'PASSWORD': 's3rv3r',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
+}
+
 
 # Application definition
 
@@ -56,12 +72,6 @@ WSGI_APPLICATION = 'Monitor.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
