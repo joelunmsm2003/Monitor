@@ -1,0 +1,10 @@
+--Borrar directorio
+
+rm -r [directorio]
+
+--Monitoreo
+
+killall -9 python 
+ps aux | grep py
+top
+df -h
