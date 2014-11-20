@@ -1,23 +1,16 @@
-<<<<<<< HEAD
-=======
-touch README.md
->>>>>>> 8e3a539abb393ec75af06996c2abad1e2fde86da
+
 git init
 git add README.md
 git commit -m "first commit"
 git remote add origin git@github.com:joelunmsm2003/Monitor.git
 git push -u origin master
-<<<<<<< HEAD
+
 
 --Si existe error fatal: remote origin already exists
 git remote rm origin
 
 --Clonar 
 git clone git@github.com:joelunmsm2003/Monitor.git
-=======
-…or push an existing repository from the command line
 
 
-git remote add origin git@github.com:joelunmsm2003/Monitor.git
-git push -u origin master
->>>>>>> 8e3a539abb393ec75af06996c2abad1e2fde86da
+
