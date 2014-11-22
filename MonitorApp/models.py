@@ -1,63 +1,68 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
+
+class FormTicket(forms.Form):
+
+    cc_myself = forms.BooleanField(required=False)
 
 
-class Empresa(models.Model):
-	
-	name = models.CharField(max_length=100)
-	comentario = models.CharField(max_length=100)
-	fecha_inicio = models.DateField()
+class Tipo(models.Model):
 
-class Cliente(models.Model):
-
-	user = models.ForeignKey(User,)
-	name = models.CharField(max_length=100)
-	email = models.CharField(max_length=100)
-	celular = models.CharField(max_length=100)
-	empresa = models.ForeignKey(Empresa)
-	comentario = models.CharField(max_length=100)
-	fecha_inicio = models.DateField()
-	fecha_fin = models.DateField()
-
-class Soporte(models.Model):
-
-	user = models.ForeignKey(User,)
-	name = models.CharField(max_length=100)
-	email = models.CharField(max_length=100)
-	celular = models.CharField(max_length=100)
-	fecha_inicio = models.DateField()
-	fecha_fin = models.DateField()
-	comentario = models.CharField(max_length=100)
+	name = models.CharField(max_length=100,blank=True)
+	fecha_inicio = models.DateField(null=True,blank=True)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.name
 
 class Estado(models.Model):
 
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100,blank=True)
+	fecha_inicio = models.DateField(null=True,blank=True)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.name
+
+class Ticket(models.Model):
+
+	cliente = models.ForeignKey(User)
+	titulo = models.CharField(max_length=100,blank=True)
+	tipo = models.ForeignKey(Tipo)
+	problema = models.CharField(max_length=100,blank=True)
 	fecha_inicio = models.DateField()
-	comentario = models.CharField(max_length=100)
-
-
-class Tarea(models.Model):
-
+	fecha_fin = models.DateField(null=True,blank=True)
+	validado = models.BooleanField(max_length=100,blank=True)
 	estado = models.ForeignKey(Estado)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.titulo
+
+class Soporte(models.Model):
+
+	ticket = models.ForeignKey(Ticket)
+	titulo = models.CharField(max_length=100,primary_key=True)
+
 	fecha_inicio = models.DateField()
-	fecha_fin = models.DateField()
-	comentario = models.CharField(max_length=100)
+	fecha_fin= models.DateField(null=True,blank=True)
+	soporte = models.ForeignKey(User,)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.titulo
 
-class Cliente_soporte(models.Model):
-	
-	cliente = models.ForeignKey(Cliente)
-	soporte = models.ForeignKey(Soporte)
-	tarea = models.CharField(Tarea,max_length=100)
-	fecha_inicio = models.DateField()
-	fecha_fin = models.DateField()
-	comentario = models.CharField(max_length=100)
+class Evento(models.Model):
+
+	evento = models.ForeignKey(Ticket)
+	name = models.CharField(max_length=100,blank=True)
+	fecha_inicio = models.DateField(null=True,blank=True)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.name
 
 
-class Eventos(models.Model):
 
-	cliente_soporte = models.ForeignKey(Cliente_soporte)
-	comentario = models.CharField(max_length=100)
-	fecha_inicio = models.DateField()
+
+
+
 
 
 

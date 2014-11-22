@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+{% include "layout.html" %}
+
+<body>
+
+{% include "header.html" %}
+
+
+
+
+
+
+<div id='form' class='form'>
+<form action="/ticket/" method="post" class='ticket'>
+    
+    {% csrf_token %}
+    
+
+    <label class='etiqueta'>Asunto :</label><div id='field'><input id="asunto" type="text" name="asunto" maxlength="100"></div>
+    <label class='etiqueta'>Tipo :</label><div id='field'><input id="tipo" type="text" name="tipo" maxlength="100"></div>
+    <label class='etiqueta'>Descripcion :</label><div id='field'><input id="descripcion" type="text" name="descripicion" maxlength="100"></div>
+    <label class='etiqueta'></label><div id='field'><input type="submit" value="Enviar Ticket" /></div>
+
+</form>
+
+</div>
+
+
+<div id= 'tickets'>
+
+<div id='pendientes'>
+Pendientes
+{% for ticket_pendiente in ticket_pendiente%}
+    <li>{{ticket_pendiente.titulo}}</li>
+{% endfor %}
+</div>
+
+<div id='cerrados'>
+Cerrados
+{% for ticket_cerrado in ticket_cerrado%}
+    {{ticket_cerrado.titulo}}
+{% endfor %}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>

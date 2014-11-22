@@ -1,0 +1,254 @@
+<head>
+	<title>Home</title>
+	  <meta charset="utf-8">
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
+   <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+
+
+</head>
+
+<style>
+
+*{
+
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+
+}
+
+
+/*body*/
+
+body{
+
+font-family: 'Lato', sans-serif;
+color:black;
+}
+
+/*logo*/
+
+h1{
+	font-size: 40px
+
+}
+
+header{
+
+  width: 100%;
+  background: black;
+  text-align: center;
+
+
+ 
+
+}
+
+header h1 a{
+
+
+  font-size: 48px;
+  text-decoration: none;
+
+ 
+
+}
+
+
+
+/*alinear logo y menu de navegacion*/
+
+header h1,nav{
+
+  
+  vertical-align: middle;
+  display: inline-block;
+  color: white;
+
+
+
+}
+
+nav{
+
+    
+    margin-left: 36em;
+    
+  }
+
+
+
+
+
+
+
+
+/*menu de navegacion*/
+
+#top-menu{
+
+
+  margin: auto;
+  width:600px;
+text-decoration: none;
+
+
+}
+
+ul,ol{
+
+  list-style: none;
+  
+  
+
+}
+
+.nav li a{
+
+  width:160px;
+  text-shadow: 0px 0px 1.5px #fff;
+
+  height: 1.5em;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  padding:15px 15px;
+  display:block;
+   -ms-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  -webkit-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+
+
+
+}
+
+.nav li a:hover{
+
+    border-radius: 0em;
+    background-color: #a79999;
+     -ms-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+
+}
+
+.nav > li{
+
+  float: left;
+
+
+
+}
+
+.nav li ul{
+
+  display: none;
+  position: absolute;
+  min-width: 165px;
+  text-align: middle;
+
+
+}
+
+.nav li:hover>ul{
+
+  display: block;
+
+
+}
+
+.nav li ul li{
+
+
+  position: relative;
+}
+
+
+div#top-menu ul li a.selected {
+
+  vertical-align: middle;
+}
+
+
+
+
+
+/*sombras de imagenes*/
+
+.fade{
+  
+  opacity: 1;
+  filter:alpha(opacity=10);
+
+  -ms-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  -webkit-transition: all 0.5s ease-in;
+  transition:all 0.5s ease-in;
+  
+
+}
+
+.fade:hover{
+  
+  opacity: .7;
+  filter:alpha(opacity=7);
+  -ms-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  transition:all 0.5s ease-out;
+  
+
+}
+
+
+
+.etiqueta,#field{
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#field{
+  width: 50%;
+}
+.etiqueta{
+  width: 40%;
+}
+.ticket{
+
+  width:50%;
+}
+
+#tickets,.form{
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#salir,#select{
+
+  vertical-align: middle;
+  display: inline-block;
+  width: 48%;
+
+}
+
+#titulo{
+
+  text-align: center;
+}
+
+#salir{
+
+  text-align: right;
+}
+#select{
+
+  text-align: left;
+}
+
+</style>

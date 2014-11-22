@@ -9,8 +9,7 @@ urlpatterns = patterns('',
  	url(r'^logeate/', 'MonitorApp.views.logeate', name='reporte'),
  	url(r'^logeate/', 'MonitorApp.views.logeate', name='reporte'),
 	url(r'^push$', 'MonitorApp.views.push'),
-	
-	url(r'^reportes/', 'MonitorApp.views.reportes', name='reporte'),
+	url(r'^ticket/', 'MonitorApp.views.ticket'),
 	url(r'^salir/', 'MonitorApp.views.salir'),
 
 

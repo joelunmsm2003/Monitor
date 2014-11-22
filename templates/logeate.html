@@ -4,13 +4,10 @@
 <head>
     <meta charset="utf-8">
     <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+       
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 
 <link href="http://fonts.googleapis.com/css?family=Open Sans" type="text/css" rel="stylesheet" />
 
@@ -39,7 +36,7 @@
                                 $('#result').append(json);
                                 if (json=='Login') {
 
-							     window.location.href = "/reportes"
+							     window.location.href = "/ticket"
                                 
 								}
                             },
@@ -65,6 +62,10 @@ LOGIN
 </div>
 
 </div>
+
+
+<label for="your_name">Your name: </label>
+<input id="your_name" type="text" name="your_name" maxlength="100">
 
 
 
