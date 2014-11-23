@@ -1,6 +1,14 @@
-
-
 pip install Django==1.6.7
 python manage.py syncdb 
 python manage.py inspectdb > MonitorApp/models.py
 ALTER TABLE <table_name> ADD column varchar(100);
+
+--Agregar un grupo a un usuario
+grupo=get_object_or_404(Group,name='Clientes')
+c.groups.add(grupo)
+
+--Select del grupo de un usuario
+x=User.objects.get(pk=2)
+x.groups.all()
+
+

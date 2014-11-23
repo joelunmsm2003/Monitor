@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+
 
 {% include "layout.html" %}
 
@@ -10,18 +9,27 @@
 
 
 
-
-
-<div id='form' class='form'>
+{{msj}}
+<div id='contenedor'>
+<div id='form'>
+Generar un Ticket
 <form action="/ticket/" method="post" class='ticket'>
     
     {% csrf_token %}
     
 
-    <label class='etiqueta'>Asunto :</label><div id='field'><input id="asunto" type="text" name="asunto" maxlength="100"></div>
-    <label class='etiqueta'>Tipo :</label><div id='field'><input id="tipo" type="text" name="tipo" maxlength="100"></div>
-    <label class='etiqueta'>Descripcion :</label><div id='field'><input id="descripcion" type="text" name="descripicion" maxlength="100"></div>
-    <label class='etiqueta'></label><div id='field'><input type="submit" value="Enviar Ticket" /></div>
+    <label class='etiqueta'>Asunto :</label><div id='field'><input id="field" type="text" name="asunto" maxlength="100"></div>
+    <label class='etiqueta'>Tipo :</label>
+    <select name="tipo" id="tipo">
+    {% for tipos in tipos%}
+     <option value="{{tipos.id}}">{{ tipos.name }}</option>
+	{% endfor %}
+    </select>
+
+    <br>
+  
+    <label class='etiqueta'>Descripcion :</label><div id='field'><input id="descripcion" type="textarea" name="descripcion" ></div><br>
+    <label class='etiqueta'></label><div id='field'><input  id="field1" type="submit" value="Enviar Ticket" /></div>
 
 </form>
 
@@ -30,22 +38,74 @@
 
 <div id= 'tickets'>
 
+
 <div id='pendientes'>
-Pendientes
-{% for ticket_pendiente in ticket_pendiente%}
-    <li>{{ticket_pendiente.titulo}}</li>
-{% endfor %}
+
+
+{% if grupo == 'Soporte' %}
+
+<table>
+ <tr>
+Tickets Pendientes
+  </tr>
+   <tr>
+    <td>Asunto</td>
+    <td>Tipo</td> 
+    <td>Fecha de Inicio</td>
+    <td>Fecha de Fin</td>
+    <td>Estado</td>
+    <td>Detalle</td>
+  </tr>
+
+
+	{% for ticket_pendiente in ticket_pendiente%}
+	<tr>
+	<td width='30%'>{{ticket_pendiente.asunto}}</td>
+	<td width='10%'>{{ticket_pendiente.tipo}}</td>
+	<td width='18%'>{{ticket_pendiente.fecha_inicio}}</td>
+	<td width='18%'>{{ticket_pendiente.fecha_fin}}</td>
+	<td width='10%'>{{ticket_pendiente.estado}}</td>
+	<td width='10%'><a href='/atender/{{ticket_pendiente.id}}/{{id_user}}'>Atender</a></td>
+	</tr>
+	{% endfor %}
+</table>
+{% else %}
+
+<table>
+ <tr>
+Tickets Pendientes
+  </tr>
+   <tr>
+    <td>Asunto</td>
+    <td>Tipo</td> 
+    <td>Fecha de Inicio</td>
+    <td>Fecha de Fin</td>
+    <td>Estado</td>
+    <td>Detalle</td>
+  </tr>
+
+
+	{% for ticket_pendiente in ticket_pendiente%}
+	<tr>
+	<td width='30%'>{{ticket_pendiente.asunto}}</td>
+	<td width='10%'>{{ticket_pendiente.tipo}}</td>
+	<td width='18%'>{{ticket_pendiente.fecha_inicio}}</td>
+	<td width='18%'>{{ticket_pendiente.fecha_fin}}</td>
+	<td width='10%'>{{ticket_pendiente.estado}}</td>
+	<td width='10%'><a href='/editar_ticket/{{ticket_pendiente.id}}'>Editar</a></td>
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+
+
+
 </div>
 
-<div id='cerrados'>
-Cerrados
-{% for ticket_cerrado in ticket_cerrado%}
-    {{ticket_cerrado.titulo}}
-{% endfor %}
+
+
 
 </div>
-
-
 </div>
 
 

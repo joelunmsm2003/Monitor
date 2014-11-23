@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django import forms
 
 class FormTicket(forms.Form):
@@ -10,7 +10,7 @@ class FormTicket(forms.Form):
 class Tipo(models.Model):
 
 	name = models.CharField(max_length=100,blank=True)
-	fecha_inicio = models.DateField(null=True,blank=True)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
@@ -18,32 +18,34 @@ class Tipo(models.Model):
 class Estado(models.Model):
 
 	name = models.CharField(max_length=100,blank=True)
-	fecha_inicio = models.DateField(null=True,blank=True)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
 
 class Ticket(models.Model):
 
+	id = models.AutoField(max_length=100,primary_key=True)
 	cliente = models.ForeignKey(User)
-	titulo = models.CharField(max_length=100,blank=True)
+	asunto = models.CharField(max_length=100,blank=True)
 	tipo = models.ForeignKey(Tipo)
-	problema = models.CharField(max_length=100,blank=True)
-	fecha_inicio = models.DateField()
-	fecha_fin = models.DateField(null=True,blank=True)
+	descripcion = models.CharField(max_length=100,blank=True)
+	fecha_inicio = models.DateTimeField()
+	fecha_fin = models.DateTimeField(null=True,blank=True)
 	validado = models.BooleanField(max_length=100,blank=True)
 	estado = models.ForeignKey(Estado)
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
-		return self.titulo
+		return self.asunto
 
 class Soporte(models.Model):
 
+	id = models.AutoField(max_length=100,primary_key=True)
 	ticket = models.ForeignKey(Ticket)
-	titulo = models.CharField(max_length=100,primary_key=True)
+	titulo = models.CharField(max_length=100)
 
 	fecha_inicio = models.DateField()
-	fecha_fin= models.DateField(null=True,blank=True)
+	fecha_fin= models.DateTimeField(null=True,blank=True)
 	soporte = models.ForeignKey(User,)
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
@@ -53,7 +55,7 @@ class Evento(models.Model):
 
 	evento = models.ForeignKey(Ticket)
 	name = models.CharField(max_length=100,blank=True)
-	fecha_inicio = models.DateField(null=True,blank=True)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name

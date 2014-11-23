@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^push$', 'MonitorApp.views.push'),
 	url(r'^ticket/', 'MonitorApp.views.ticket'),
 	url(r'^salir/', 'MonitorApp.views.salir'),
+	url(r'^editar_ticket/(\d+)/$','MonitorApp.views.editar_ticket'),
 
-
+	url(r'^atender/(\d+)/$','MonitorApp.views.atender'),
 )

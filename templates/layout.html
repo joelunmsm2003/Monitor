@@ -1,10 +1,12 @@
+<!DOCTYPE html>
+<html>
 <head>
 	<title>Home</title>
 	  <meta charset="utf-8">
     <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
    <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 
-
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 
 <style>
@@ -16,8 +18,16 @@
   border: 0px;
 
 }
+a{
+  color:rgb(91, 91, 157);
+}
 
+#contenedor{
 
+  text-align: center;
+  width: center;
+
+}
 /*body*/
 
 body{
@@ -29,7 +39,7 @@ color:black;
 /*logo*/
 
 h1{
-	font-size: 40px
+	font-size: 30px
 
 }
 
@@ -47,7 +57,7 @@ header{
 header h1 a{
 
 
-  font-size: 48px;
+  font-size: 20px;
   text-decoration: none;
 
  
@@ -72,7 +82,7 @@ header h1,nav{
 nav{
 
     
-    margin-left: 36em;
+    margin-left: 17em;
     
   }
 
@@ -206,28 +216,83 @@ div#top-menu ul li a.selected {
 
 }
 
-
-
-.etiqueta,#field{
-  vertical-align: middle;
-  display: inline-block;
+#contenedor{
+  padding-top: 2em;
 }
+
+select#tipo,input#field1{
+  width:100px;
+  width: 337px;
+height: 38px;
+padding: 4px;
+text-align: center;
+font-family: 'Lato', sans-serif;
+background: #0082D8;;
+
+}
+
+form.ticket{
+
+  padding: 1em;
+}
+
+
+#pendientes{
+
+  text-align: center;
+
+  font-size: 14px;
+}
+
 
 #field{
   width: 50%;
-}
-.etiqueta{
-  width: 40%;
-}
-.ticket{
 
-  width:50%;
 }
 
-#tickets,.form{
-  vertical-align: middle;
+input#field{
+    border-style: solid;
+    border-width: 1px;
+    
+    font-family: 'Lato', sans-serif;
+    height: 20px;
+    width: 325px;
+    color: #0082D8;
+    height: 24px;
+    padding: 5px;
+
+}
+
+input#descripcion{
+
+  height: 100px;
+      border-style: solid;
+    border-width: 1px;
+       width: 325px;
+    
+height: 240px;
+    padding: 5px;
+    color: #0082D8;
+}
+
+
+
+#tickets,#form{
+  vertical-align: top;
   display: inline-block;
+  
+
 }
+
+#form{
+  width: 30%;
+  text-align:left;
+}
+
+#tickets{
+  width: 60%
+}
+
 
 #salir,#select{
 
@@ -250,5 +315,19 @@ div#top-menu ul li a.selected {
 
   text-align: left;
 }
+
+table,tr{
+
+      border-style: solid;
+    border-width: 1px;
+    color: #0082D8;
+ border-collapse: collapse;
+ font-family: 'Open Sans', sans-serif;
+ font-size: 12px;
+ 
+}
+
+
+
 
 </style>
