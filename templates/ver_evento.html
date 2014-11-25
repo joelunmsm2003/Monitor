@@ -1,0 +1,41 @@
+
+{% include "layout.html" %}
+
+<body>
+
+{% include "header.html" %}
+
+<div id='contenedor'>
+
+<div id= 'tickets'>
+
+<div id='pendientes'>
+
+<table>
+ <tr>
+Soporte {{soporte.id}}
+  </tr>
+   <tr>
+
+    <td>Evento</td> 
+    <td>Fecha de Inicio</td>
+    <td>Accion</td>
+
+  </tr>
+
+
+	{% for evento in evento%}
+	<tr>
+
+	<td width='50%'>{{evento.name}}</td>
+	<td width='25%'>{{evento.fecha_inicio}}</td>
+	<td width='20%'><a href='/evento/{{soporte.id}}'>Agregar un evento</a></td>
+
+
+	{% endfor %}
+</table>
+
+</div>
+</div>
+
+</div>

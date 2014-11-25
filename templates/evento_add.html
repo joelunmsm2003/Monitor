@@ -1,0 +1,34 @@
+
+
+{% include "layout.html" %}
+
+<body>
+
+{% include "header.html" %}
+
+
+
+
+Soporte {{soporte.id}}
+
+
+<form action="/evento_add/" method="post" class='ticket'>
+    
+    {% csrf_token %}
+    
+    <label class='etiqueta'></label><div id='field'><input value="{{soporte.id}}" id="field" type="hidden" name="id" maxlength="100"></div>
+
+        <br>
+    <label class='etiqueta'>Evento :</label><br>
+    <textarea id="field" name="name" rows="10" cols="30">
+
+    </textarea>
+  
+    
+
+
+  
+
+    <label class='etiqueta'></label><div id='field'><br><input  id="field1" type="submit" value="Agregar Evento" /></div>
+
+</form>

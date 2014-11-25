@@ -11,76 +11,35 @@
 
 {{msj}}
 
-<form action="/reasignar/" method="post" class='ticket'>
+
+<form action="/reasignar_add/" method="post" class='ticket'>
     
     {% csrf_token %}
     
+    <label class='etiqueta'></label><div id='field'><input value="{{id_ticket}}" id="field" type="hidden" name="id_ticket" maxlength="100"></div>
+    <label class='etiqueta'></label><div id='field'><input readonly value="{{soporte.id}}" id="field" type="hidden" name="id" maxlength="100"></div>
+    <label class='etiqueta'>Ticket :</label><div id='field'><input  readonly value="{{soporte.ticket}}" id="field" type="text" name="ticket" maxlength="100"></div>
+    <label class='etiqueta'>Fecha Inicio :</label><div id='field'><input readonly value="{{soporte.fecha_inicio}}" id="field" type="text" name="fecha_inicio" maxlength="100"></div>
 
-    <label class='etiqueta'>Asunto :</label><div id='field'><input id="field" type="text" name="asunto" maxlength="100"></div>
 
-    <label class='etiqueta'>Tipo :</label><br>
-    <select name="tipo" id="tipo">
-    {% for tipo in tipo%}
-     <option value="{{tipo.id}}">{{tipo.name}}</option>
-	{% endfor %}
-    </select>
 
-    <br>
+
     <label class='etiqueta'>Soporte :</label><br>
+
     <select name="soporte" id="tipo">
-    {% for soporte in soporte%}
-     <option value="{{tipos.id}}">{{soporte.username}}</option>
+    {% for user_soporte in user_soporte%}
+     <option value="{{user_soporte.id}}">{{user_soporte.username}}</option>
 	{% endfor %}
     </select>
 
-    <br>
+     <br>
   
-    <label class='etiqueta'>Descripcion :</label><div id='field'><input id="descripcion" type="textarea" name="descripcion" ></div><br>
-    <label class='etiqueta'></label><div id='field'><input  id="field1" type="submit" value="Enviar Ticket" /></div>
+
+    <label class='etiqueta'></label><div id='field'><br><input  id="field1" type="submit" value="Reasignar Ticket" /></div>
 
 </form>
 
-<div id='contenedor'>
 
-<div id= 'tickets'>
-
-<div id='pendientes'>
-
-<table>
- <tr>
-Ticket {{ticket.id}}
-  </tr>
-   <tr>
-    <td>Asunto</td>
-    <td>Tipo</td> 
-    <td>Fecha de Inicio</td>
-    <td>Fecha de Fin</td>
-    <td>Estado</td>
-    <td>Descripcion</td>
-
-  </tr>
-
-
-
-	<tr>
-	<td width='30%'>{{ticket.asunto}}</td>
-	<td width='10%'>{{ticket.tipo}}</td>
-	<td width='18%'>{{ticket.fecha_inicio}}</td>
-	<td width='18%'>{{ticket.fecha_fin}}</td>
-	<td width='10%'>{{ticket.estado}}</td>
-    <td width='10%'>{{ticket.descripcion}}</td>
-
-	</tr>
-
-</table>
-
-</div>
-
-
-
-
-</div>
-</div>
 
 
 

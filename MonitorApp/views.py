@@ -19,7 +19,7 @@ def ticket_add(request):
 	username = request.user.username
 	tipos=Tipo.objects.all()
 	estado_name=str('Nuevos')
-	print estado_name
+	
 
 	if request.method == 'POST':
 
@@ -65,7 +65,7 @@ def ticket(request,estado):
 	else:
 		grupo_flag = 0
 
-	print grupo_flag
+	
 	if request.method == 'POST':
 
 
@@ -75,6 +75,7 @@ def ticket(request,estado):
 		asunto = request.POST['asunto']
 		tipo = request.POST['tipo']
 		descripcion=request.POST['descripcion']
+
 		
 		fecha_inicio = datetime.datetime.today()
 		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
@@ -145,7 +146,7 @@ def editar_ticket(request,id):
 		username = request.user.username
 		asunto = request.POST['asunto']
 		tipo = request.POST['tipo']
-		print tipo
+		
 		descripcion=request.POST['descripcion']
 		fecha_inicio = datetime.datetime.today()
 
@@ -166,15 +167,17 @@ def atender(request,id):
 	ticket= Ticket.objects.get(id=id)
 	ticket_pendiente = Ticket.objects.filter(estado=1).order_by('-id')
 	username = request.user.username
+	id_soporte = request.user.id
 	tipos=Tipo.objects.all()
-	print username
+	
 	x=User.objects.get(username=username)
-	print 'x'+str(x)
+	
 	grupo =x.groups.get()
 	grupo= str(grupo)
+	fecha_inicio = datetime.datetime.today()
 
 	if ticket.estado_id ==1 :
-		soporte=ticket.soporte_set.create(titulo='Soporte',fecha_inicio='2013-02-02',soporte_id=id)
+		soporte=ticket.soporte_set.create(fecha_inicio=fecha_inicio,soporte_id=id_soporte)
 		ticket.estado_id = 2
 		ticket.save()
 		
@@ -200,24 +203,48 @@ def cerrar(request,id):
 	return HttpResponseRedirect("/ticket/3")
 
 
-def reasignar(request,id):
+def reasignar(request,id,id_ticket):
 
-	ticket= Ticket.objects.get(id=id)
+	id_ticket= str(id_ticket)
+	soporte= Soporte.objects.get(id=id)
+	user_soporte = User.objects.all()
 	username = request.user.username
-	tipos=Tipo.objects.all()
+	tipo=Tipo.objects.all()
 	x=User.objects.get(username=username)
-	soporte = User.objects.all()
+	
 	grupo =x.groups.get()
 	grupo= str(grupo)
-	return render(request, 'reasignar.html', {'soporte':soporte,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
 
+	return render(request,'reasignar.html', {'id_ticket':id_ticket ,'user_soporte':user_soporte,'soporte':soporte,'username':username,'grupo':grupo,'tipo':tipo})
+
+def reasignar_add(request):
+
+	if request.method == 'POST':
+
+		form = FormTicket(request.POST)
+		username = request.user.username
+		soporte_user = request.POST['soporte']
+		print soporte_user
+		id_ticket = request.POST['id_ticket']
+		ticket = Ticket.objects.get(id=id_ticket)
+		id = request.POST['id']
+		
+		soporte = Soporte.objects.get(id=id)
+		fecha_fin = datetime.datetime.today()
+		soporte.fecha_fin = fecha_fin
+
+		soporte.save()
+
+		ticket.soporte_set.create(fecha_inicio=fecha_fin,soporte_id=soporte_user)
+
+		return HttpResponseRedirect("/detalle_ticket/"+id_ticket+"/")
 
 
 def ver_ticket(request,id):
 
 	ticket= Ticket.objects.get(id=id)
 	username = request.user.username
-	tipos=Tipo.objects.all()
+
 	x=User.objects.get(username=username)
 	grupo =x.groups.get()
 	grupo= str(grupo)
@@ -233,3 +260,46 @@ def validar(request,id):
 	ticket.save()
 
 	return HttpResponseRedirect("/ticket/1")
+
+def detalle_ticket(request,id):
+
+	ticket= Ticket.objects.get(id=id)
+	soportes = ticket.soporte_set.all()
+
+	ticket.save()
+	username = request.user.username
+	tipos=Tipo.objects.all()
+	x=User.objects.get(username=username)
+	grupo =x.groups.get()
+	grupo= str(grupo)
+
+	return render(request, 'detalle_ticket.html', {'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
+
+def evento(request,id):
+
+	soporte = Soporte.objects.get(id=id)
+	
+	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
+
+	return render(request, 'evento_add.html', {'soporte':soporte})
+
+def evento_add(request):
+
+	
+	if request.method == 'POST':
+		soporte_id = request.POST['id']
+		name = request.POST['name']
+		fecha_inicio = datetime.datetime.today()
+		soporte = Soporte.objects.get(id=soporte_id)
+		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
+
+		return HttpResponseRedirect("/ver_evento/"+soporte_id+"/")
+
+def ver_evento(request,id):
+
+	soporte = Soporte.objects.get(id=id)
+	evento = soporte.evento_set.all()
+	
+	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
+
+	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte})
