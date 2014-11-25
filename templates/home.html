@@ -57,21 +57,45 @@ Tickets {{estado_name}}
 		 <td>Fecha de Fin</td>
 	{% endif %}
 
+	{% if estado_name == 'Atendidos' %}
+		  <td>Soporte</td>
+	{% endif %}
+
+   
     <td>Estado</td>
     <td>Detalle</td>
+    
     <td>Accion</td>
 
   </tr>
 
 
-	{% for ticket in ticket%}
+{% for ticket in ticket%}
+	
+	
 	<tr>
+	
+
 	<td width='25%'>{{ticket.asunto}}</td>
 	<td width='5%'>{{ticket.tipo}}</td>
 	<td width='18%'>{{ticket.fecha_inicio}}</td>
 	{% if estado_name == 'Cerrados' %}
 		<td width='18%'>{{ticket.fecha_fin}}</td>
+
 	{% endif %}
+
+
+
+		{% for soporte in soporte %}
+
+			{% if soporte.ticket_id == ticket.id %}
+			<td width='5%'>{{soporte.soporte}}</td>
+
+			{% endif %}
+			
+		{% endfor %}
+
+
 	<td width='5%'>{{ticket.estado}}</td>
 	<td width='12%'><a href='/detalle_ticket/{{ticket.id}}'>Mas detalle</a></td>
 	{% if grupo == 'Soporte' %}
@@ -105,8 +129,12 @@ Tickets {{estado_name}}
 		{% endif %}
 	{% endif %}
 	</tr>
-	{% endfor %}
+{% endfor %}
+
+
 </table>
+
+
 {% else %}
 <a>No hay tickets</a>
 {% endif %}

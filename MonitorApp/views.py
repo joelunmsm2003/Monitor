@@ -53,6 +53,8 @@ def ticket(request,estado):
 	id = request.user.id
 
 	ticket = Ticket.objects.filter(estado=estado).order_by('-id')
+	soporte = Soporte.objects.filter(fecha_fin=None)
+
 
 	x=User.objects.get(pk=id)
 	grupo =x.groups.get()
@@ -101,7 +103,7 @@ def ticket(request,estado):
 	if str(estado)=='4': 
 		estado_name= 'Cerrados'
 
-	return render(request, 'home.html', {'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo,'grupo_flag':grupo_flag})
+	return render(request, 'home.html', {'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo,'grupo_flag':grupo_flag})
 
 def logeate(request):
  
