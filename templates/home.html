@@ -19,7 +19,7 @@ Generar un Ticket
     
 
     <label class='etiqueta'>Asunto :</label><div id='field'><input id="field" type="text" name="asunto" maxlength="100"></div>
-    <label class='etiqueta'>Tipo :</label>
+    <label class='etiqueta'>Tipo :</label><br>
     <select name="tipo" id="tipo">
     {% for tipos in tipos%}
      <option value="{{tipos.id}}">{{tipos.name}}</option>
