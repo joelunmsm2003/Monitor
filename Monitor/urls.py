@@ -21,8 +21,8 @@ urlpatterns = patterns('',
 	url(r'^reasignar/(\d+)/(\d+)/$','MonitorApp.views.reasignar'),
 	url(r'^ver_ticket/(\d+)/$','MonitorApp.views.ver_ticket'),
 	url(r'^detalle_ticket/(\d+)/$','MonitorApp.views.detalle_ticket'),
-	url(r'^evento/(\d+)/$', 'MonitorApp.views.evento'),
+	url(r'^evento/(\d+)/(\d+)/$', 'MonitorApp.views.evento'),
 	url(r'^evento_add/', 'MonitorApp.views.evento_add'),
-	url(r'^ver_evento/(\d+)/$', 'MonitorApp.views.ver_evento'),
+	url(r'^ver_evento/(\d+)/(\d+)/$', 'MonitorApp.views.ver_evento'),
 
 )

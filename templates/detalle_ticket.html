@@ -20,6 +20,7 @@
  <tr>
 Ticket {{ticket.asunto}}
   </tr>
+
    <tr>
  
     <td width='10%'>Tipo</td> 
@@ -44,9 +45,9 @@ Ticket {{ticket.asunto}}
 
 </table>
 
+<br><br>
 
-
-
+{% if soportes %}
 <table>
  <tr>
 Soportes  del ticket 
@@ -58,11 +59,14 @@ Soportes  del ticket
     <td>Fecha de Inicio</td>
      <td>Fecha de Fin</td>
     <td>Soporte</td>
-
-    <td>Reaccionar</td>
+  {% if grupo == 'Soporte' %}
+    <td>Reasignar</td>
+      {% endif %}
     <td>Accion</td>
     <td>Detalle</td>
   </tr>
+
+
 
 
   {% for soportes in soportes%}
@@ -76,20 +80,28 @@ Soportes  del ticket
   <td width='15%'>{{soportes.soporte_id}}</td>
 
   {% if soportes.fecha_fin == None %}
-  <td width='12%'><a href='/reasignar/{{soportes.id}}/{{ticket.id}}'>Reasignar</a></td>
-   <td width='20%'><a href='/evento/{{soportes.id}}'>Agregar un evento</a></td>
+      {% if grupo == 'Soporte' %}
+       <td width='12%'><a href='/reasignar/{{soportes.id}}/{{ticket.id}}'>Reasignar</a></td>
+       {% endif %}
+    <td width='20%'><a href='/evento/{{soportes.id}}/{{ticket.id}}'>Agregar un evento</a></td>
   {% else %}
-  <td width='12%'><a href=''>-</a></td>
+
+  {% if grupo == 'Soporte' %}
   <td width='12%'><a href=''>-</a></td>
   {% endif %}
-  <td width='12%'><a href='/ver_evento/{{soportes.id}}'>Mas detalles</a></td>
+  <td width='12%'><a href=''>-</a></td>
+  {% endif %}
+
+
+
+  <td width='12%'><a href='/ver_evento/{{soportes.id}}/{{ticket.id}}'>Mas detalles</a></td>
   </tr>
 
   {% endfor %}
 
 
 </table>
-
+  {% endif %}
 
 </div>
 

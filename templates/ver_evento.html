@@ -10,16 +10,19 @@
 <div id= 'tickets'>
 
 <div id='pendientes'>
-
+{% if evento %}
 <table>
+
  <tr>
-Soporte {{soporte.id}}
+Soporte del ticket <a href='/detalle_ticket/{{ticket.id}}/'>{{ticket.asunto}}</a>
+
   </tr>
+  <tr></tr>
    <tr>
 
     <td>Evento</td> 
     <td>Fecha de Inicio</td>
-    <td>Accion</td>
+
 
   </tr>
 
@@ -29,11 +32,15 @@ Soporte {{soporte.id}}
 
 	<td width='50%'>{{evento.name}}</td>
 	<td width='25%'>{{evento.fecha_inicio}}</td>
-	<td width='20%'><a href='/evento/{{soporte.id}}'>Agregar un evento</a></td>
+	
 
 
 	{% endfor %}
 </table>
+{% else %}
+<a>No existen eventos</a>
+{% endif %}
+
 
 </div>
 </div>

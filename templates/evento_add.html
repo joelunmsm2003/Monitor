@@ -9,13 +9,15 @@
 
 
 
-Soporte {{soporte.id}}
+<a>Soporte del ticket {{ticket.asunto}}</a>
 
 
 <form action="/evento_add/" method="post" class='ticket'>
     
     {% csrf_token %}
     
+    <label class='etiqueta'></label><div id='field'><input value="{{ticket.id}}" id="field" type="hidden" name="id_ticket" maxlength="100"></div>
+
     <label class='etiqueta'></label><div id='field'><input value="{{soporte.id}}" id="field" type="hidden" name="id" maxlength="100"></div>
 
         <br>

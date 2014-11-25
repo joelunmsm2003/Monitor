@@ -101,8 +101,6 @@ def ticket(request,estado):
 	if str(estado)=='4': 
 		estado_name= 'Cerrados'
 
-
-	
 	return render(request, 'home.html', {'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo,'grupo_flag':grupo_flag})
 
 def logeate(request):
@@ -244,7 +242,7 @@ def ver_ticket(request,id):
 
 	ticket= Ticket.objects.get(id=id)
 	username = request.user.username
-
+	
 	x=User.objects.get(username=username)
 	grupo =x.groups.get()
 	grupo= str(grupo)
@@ -257,6 +255,9 @@ def validar(request,id):
 
 	ticket= Ticket.objects.get(id=id)
 	ticket.estado_id = 4
+	fecha_fin = datetime.datetime.today()
+	ticket.fecha_fin = fecha_fin
+	
 	ticket.save()
 
 	return HttpResponseRedirect("/ticket/1")
@@ -275,31 +276,34 @@ def detalle_ticket(request,id):
 
 	return render(request, 'detalle_ticket.html', {'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
 
-def evento(request,id):
+def evento(request,id,id_ticket):
 
 	soporte = Soporte.objects.get(id=id)
-	
+	ticket = Ticket.objects.get(id=id_ticket)
 	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
 
-	return render(request, 'evento_add.html', {'soporte':soporte})
+	return render(request, 'evento_add.html', {'ticket':ticket,'soporte':soporte})
 
 def evento_add(request):
 
 	
 	if request.method == 'POST':
+
+		evento_id = request.POST['id_ticket']
 		soporte_id = request.POST['id']
 		name = request.POST['name']
 		fecha_inicio = datetime.datetime.today()
 		soporte = Soporte.objects.get(id=soporte_id)
 		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
 
-		return HttpResponseRedirect("/ver_evento/"+soporte_id+"/")
+		return HttpResponseRedirect("/ver_evento/"+soporte_id+"/"+evento_id)
 
-def ver_evento(request,id):
+def ver_evento(request,id,id_ticket):
 
+	ticket = Ticket.objects.get(id=id_ticket)
 	soporte = Soporte.objects.get(id=id)
 	evento = soporte.evento_set.all()
 	
 	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
 
-	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte})
+	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
