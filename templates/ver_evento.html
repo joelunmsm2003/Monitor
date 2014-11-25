@@ -19,7 +19,8 @@ Soporte del ticket <a href='/detalle_ticket/{{ticket.id}}/'>{{ticket.asunto}}</a
   </tr>
   <tr></tr>
    <tr>
-
+    
+    <td>Usuario</td> 
     <td>Evento</td> 
     <td>Fecha de Inicio</td>
 
@@ -29,7 +30,7 @@ Soporte del ticket <a href='/detalle_ticket/{{ticket.id}}/'>{{ticket.asunto}}</a
 
 	{% for evento in evento%}
 	<tr>
-
+	<td width='20%'>{{evento.user}}</td>
 	<td width='50%'>{{evento.name}}</td>
 	<td width='25%'>{{evento.fecha_inicio}}</td>
 	

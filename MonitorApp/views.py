@@ -10,6 +10,12 @@ from django.http import HttpResponse
 from MonitorApp.models import *
 import datetime
 
+def nodepush(request):
+
+	return HttpResponseRedirect("/ticket/1")
+
+
+
 def ticket_add(request):
 	id = request.user.id
 	ticket = Ticket.objects.filter(estado=1).order_by('-id')
@@ -293,10 +299,12 @@ def evento_add(request):
 
 		evento_id = request.POST['id_ticket']
 		soporte_id = request.POST['id']
+		user = 	request.user.id	
 		name = request.POST['name']
 		fecha_inicio = datetime.datetime.today()
+
 		soporte = Soporte.objects.get(id=soporte_id)
-		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
+		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name,user_id=user)
 
 		return HttpResponseRedirect("/ver_evento/"+soporte_id+"/"+evento_id)
 

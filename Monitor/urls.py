@@ -20,10 +20,10 @@ urlpatterns = patterns('',
 	url(r'^evento_add/(\d+)/$','MonitorApp.views.evento_add'),
 	url(r'^reasignar/(\d+)/(\d+)/$','MonitorApp.views.reasignar'),
 	url(r'^ver_ticket/(\d+)/$','MonitorApp.views.ver_ticket'),
-	url(r'^ver_usuario/(\d+)/$','MonitorApp.views.ver_usuario'),
+
 	url(r'^detalle_ticket/(\d+)/$','MonitorApp.views.detalle_ticket'),
 	url(r'^evento/(\d+)/(\d+)/$', 'MonitorApp.views.evento'),
 	url(r'^evento_add/', 'MonitorApp.views.evento_add'),
 	url(r'^ver_evento/(\d+)/(\d+)/$', 'MonitorApp.views.ver_evento'),
-
+	url(r'^nodepush/', 'MonitorApp.views.nodepush'),
 )

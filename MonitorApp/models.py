@@ -43,12 +43,11 @@ class Soporte(models.Model):
 	id = models.AutoField(max_length=100,primary_key=True)
 	ticket = models.ForeignKey(Ticket)
 	titulo = models.CharField(max_length=100,blank=True)
-
 	fecha_inicio = models.DateTimeField()
 	fecha_fin= models.DateTimeField(null=True,blank=True)
 	soporte = models.ForeignKey(User,)
 	comentario = models.CharField(max_length=100,blank=True)
-
+	
 
 	def __str__(self):              # __unicode__ on Python 2
 		return self.titulo
@@ -57,6 +56,7 @@ class Evento(models.Model):
 
 	id = models.AutoField(max_length=100,primary_key=True)
 	evento = models.ForeignKey(Soporte)
+	user = models.ForeignKey(User,)
 	name = models.CharField(max_length=100,blank=True)
 	fecha_inicio = models.DateTimeField(null=True,blank=True)
 	comentario = models.CharField(max_length=100,blank=True)
