@@ -1,6 +1,6 @@
 <header>
 
-
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
   <h1><a href='/ticket/1'>Logos {{grupo}}</a></h1>
 
 
@@ -17,9 +17,9 @@
 
 
     </li>
-     <li><a href="">Tickets</a>
+     <li><a href="/header_ticket">Tickets</a>
 
-         <ul>
+         <ul class ='ticket_tipo'>
 
             <li><a href="/ticket/1">Nuevos</a></li>
             <li><a href="/ticket/2">Atendidos</a></li>
@@ -43,7 +43,7 @@
 
       
       <li><a href="">Logos</a>
-        <ul>
+        <ul class ='ticket_tipo'>
           <li><a href="">Monitoreo</a></li>
           <li><a href="">Reportes</a></li>
      
@@ -53,7 +53,7 @@
 
    <li><a href="">Bienvenido, {{username}}</a>
 
-   <ul>
+   <ul class ='ticket_tipo'>
           <li><a href="/salir">Salir</a></li>
      
      
@@ -70,3 +70,16 @@
 
 
 </header>
+
+<script>
+var ancho = $("header").css("width");
+
+ancho  = parseInt(ancho);
+console.log(ancho)
+
+
+
+if (ancho <= 720){
+  $( ".ticket_tipo" ).remove();
+}
+</script>

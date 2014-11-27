@@ -315,7 +315,7 @@ def reasignar(request,id,id_ticket):
 	id_ticket= str(id_ticket)
 	soporte= Soporte.objects.get(id=id)
 	user_soporte = User.objects.filter(groups__name='Soporte')
-	
+
 
 	username = request.user.username
 	tipo=Tipo.objects.all()
@@ -421,3 +421,7 @@ def ver_evento(request,id,id_ticket):
 
 	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
 
+def header_ticket(request):
+
+
+	return render(request, 'header_ticket.html', {})
