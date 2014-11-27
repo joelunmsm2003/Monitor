@@ -34,9 +34,9 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, '../templates'),)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'Monitor',
+        'NAME': 'monitor',
         'USER': 'root',
-        'PASSWORD': 's3rv3r',
+        'PASSWORD': '123',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }

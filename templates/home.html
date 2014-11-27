@@ -10,45 +10,17 @@
 
 
 {{msj}}
-<div id='contenedor'>
-<div id='form'>
-Generar un Ticket
-<form action="/ticket_add/" method="post" class='ticket'>
-    
-    {% csrf_token %}
-    
-
-    <label class='etiqueta'>Asunto :</label><div id='field'><input id="field" type="text" name="asunto" maxlength="100"></div>
-    <label class='etiqueta'>Tipo :</label><br>
-    <select name="tipo" id="tipo">
-    {% for tipos in tipos%}
-     <option value="{{tipos.id}}">{{tipos.name}}</option>
-	{% endfor %}
-    </select>
-
-    <br>
-    <label class='etiqueta'>Descripcion :</label><br>
-    <textarea id="field" name="descripcion" rows="10" cols="30">
-
-	</textarea>
-  
-   
-    <label class='etiqueta'></label><div id='field'><input  id="field1" type="submit" value="Enviar Ticket" /></div>
-
-</form>
-
-</div>
 
 
-<div id= 'tickets'>
 
-<div id='pendientes'>
+
 {% if ticket %}
 <table>
  <tr>
 Tickets {{estado_name}}
   </tr>
    <tr>
+    <td>Usuario</td>
     <td>Asunto</td>
     <td>Tipo</td> 
     <td>Fecha de Inicio</td>
@@ -75,7 +47,7 @@ Tickets {{estado_name}}
 	
 	<tr>
 	
-
+	<td width='25%'>{{ticket.cliente}}</td>
 	<td width='25%'>{{ticket.asunto}}</td>
 	<td width='5%'>{{ticket.tipo}}</td>
 	<td width='18%'>{{ticket.fecha_inicio}}</td>
@@ -138,13 +110,7 @@ Tickets {{estado_name}}
 {% else %}
 <a>No hay tickets</a>
 {% endif %}
-</div>
 
-
-
-
-</div>
-</div>
 
 
 

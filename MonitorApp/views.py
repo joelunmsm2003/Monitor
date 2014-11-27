@@ -9,11 +9,107 @@ import csv
 from django.http import HttpResponse
 from MonitorApp.models import *
 import datetime
+from django.core import serializers
+import json  
 
-def nodepush(request):
 
-	return HttpResponseRedirect("/ticket/1")
 
+def agregar_ticket(request):
+
+	id = request.user.id
+
+	x=User.objects.get(pk=id)
+	grupo =x.groups.get()
+	username = request.user.username
+	tipos=Tipo.objects.all()
+	grupo= str(grupo)
+	
+	if str(grupo) == 'Clientes':
+		grupo_flag = 1
+	else:
+		grupo_flag = 0
+
+	
+	if request.method == 'POST':
+
+
+		form = FormTicket(request.POST)
+		
+		username = request.user.username
+		asunto = request.POST['asunto']
+		tipo = request.POST['tipo']
+		descripcion=request.POST['descripcion']
+
+		
+		fecha_inicio = datetime.datetime.today()
+		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
+		#tipo 1=Incidencia 2=Requerimento
+
+
+		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
+	
+		c.save()
+		
+		#return render(request, 'home.html', {'username':username,'form': form,'asunto':asunto,'ticket_pendiente':ticket_pendiente,'ticket_cerrado':ticket_cerrado,'grupo':grupo,'msj':msj})
+
+		return HttpResponseRedirect("/ticket")
+	else:
+		form = FormTicket()
+
+
+
+	return render(request,'agregar_ticket.html', {'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
+
+
+def realtime(request):
+
+	count= Ticket.objects.count()
+	ticket = Ticket.objects.all()
+	id = request.user.id
+	ticket = Ticket.objects.filter(estado=1).order_by('-id')
+	x=User.objects.get(pk=id)
+	grupo =x.groups.get()
+	grupo=str(grupo)
+	username = request.user.username
+	tipos=Tipo.objects.all()
+	estado_name=str('Nuevos')
+
+	return render(request, 'realtime.html', {'count':count,'estado_name':estado_name,'tipos':tipos,'username':username,'ticket':ticket,'grupo':grupo})
+
+
+
+
+def realtime_post(request):
+
+	counter = request.POST['count']
+
+	Ticket.objects.all().order_by('-id')[:1]
+
+	
+
+	counter_act = Ticket.objects.count()
+	m = {'counter_act': counter_act}  
+	n = json.dumps(m)  
+	print str(counter) +" "+ str(counter_act)
+
+	
+	if (str(counter) != str(counter_act)):
+
+
+		print 'entro'
+		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
+
+		data = serializers.serialize("json",ticket_nuevo)
+		data = { 'data' : data, 'n' : n }
+		data = json.dumps(data)
+
+		print data
+		return HttpResponse(data)
+	
+
+
+	return HttpResponse(n)
+		
 
 
 def ticket_add(request):
@@ -45,7 +141,7 @@ def ticket_add(request):
 		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
 	
 		c.save()
-		return HttpResponseRedirect("/ticket/1")
+		return HttpResponseRedirect("/agregar_ticket")
 	else:
 		form = FormTicket()
 
@@ -317,3 +413,4 @@ def ver_evento(request,id,id_ticket):
 	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
 
 	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
+

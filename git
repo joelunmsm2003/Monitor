@@ -16,5 +16,8 @@ git remote rm origin
 --Clonar 
 git clone git@github.com:joelunmsm2003/Monitor.git
 
+git fetch origin
+git pull origin
+
 
 
