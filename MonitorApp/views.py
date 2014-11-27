@@ -12,6 +12,11 @@ import datetime
 from django.core import serializers
 import json  
 
+def ver_usuario(request,id):
+
+	usuario = User.objects.get(id=id)
+	return render(request,'ver_usuario.html', {'usuario':usuario})
+
 
 
 def agregar_ticket(request):
@@ -52,7 +57,7 @@ def agregar_ticket(request):
 		
 		#return render(request, 'home.html', {'username':username,'form': form,'asunto':asunto,'ticket_pendiente':ticket_pendiente,'ticket_cerrado':ticket_cerrado,'grupo':grupo,'msj':msj})
 
-		return HttpResponseRedirect("/ticket")
+		return HttpResponseRedirect("/ticket/1")
 	else:
 		form = FormTicket()
 
@@ -141,7 +146,7 @@ def ticket_add(request):
 		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
 	
 		c.save()
-		return HttpResponseRedirect("/agregar_ticket")
+		return HttpResponseRedirect("/ticket/1")
 	else:
 		form = FormTicket()
 
@@ -309,7 +314,9 @@ def reasignar(request,id,id_ticket):
 
 	id_ticket= str(id_ticket)
 	soporte= Soporte.objects.get(id=id)
-	user_soporte = User.objects.all()
+	user_soporte = User.objects.filter(groups__name='Soporte')
+	
+
 	username = request.user.username
 	tipo=Tipo.objects.all()
 	x=User.objects.get(username=username)

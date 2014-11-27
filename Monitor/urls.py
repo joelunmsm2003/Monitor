@@ -27,5 +27,5 @@ urlpatterns = patterns('',
 	url(r'^ver_evento/(\d+)/(\d+)/$', 'MonitorApp.views.ver_evento'),
 	url(r'^realtime/$', 'MonitorApp.views.realtime'),
 	url(r'^agregar_ticket/$', 'MonitorApp.views.agregar_ticket'),
-	url(r'^/', 'MonitorApp.views.realtime'),
+	url(r'^ver_usuario/(\d+)/$', 'MonitorApp.views.ver_usuario'),
 )

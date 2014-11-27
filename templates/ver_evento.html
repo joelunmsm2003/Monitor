@@ -4,12 +4,10 @@
 <body>
 
 {% include "header.html" %}
-
+<title>Ver Evento</title>
 <div id='contenedor'>
 
-<div id= 'tickets'>
 
-<div id='pendientes'>
 {% if evento %}
 <table>
 
@@ -21,18 +19,22 @@ Soporte del ticket <a href='/detalle_ticket/{{ticket.id}}/'>{{ticket.asunto}}</a
    <tr>
     
     <td>Usuario</td> 
+    <td>Soporte Asignado</td>
+     <td>Fecha</td>
     <td>Evento</td> 
-    <td>Fecha de Inicio</td>
+   
 
-
+    
   </tr>
 
 
 	{% for evento in evento%}
 	<tr>
-	<td width='20%'>{{evento.user}}</td>
-	<td width='50%'>{{evento.name}}</td>
-	<td width='25%'>{{evento.fecha_inicio}}</td>
+	<td width='10%'>{{evento.user}}</td>
+	<td width='10%'>{{soporte.soporte}}</td>
+		<td width='10%'>{{evento.fecha_inicio}}</td>
+	<td width='60%'>{{evento.name}}</td>
+
 	
 
 
@@ -43,7 +45,8 @@ Soporte del ticket <a href='/detalle_ticket/{{ticket.id}}/'>{{ticket.asunto}}</a
 {% endif %}
 
 
-</div>
-</div>
+
 
 </div>
+
+</body>

@@ -11,4 +11,8 @@ c.groups.add(grupo)
 x=User.objects.get(pk=2)
 x.groups.all()
 
+--Listar
+User.objects.all().values_list('id')
+
+ User.objects.filter(groups__name='Soporte')
 
