@@ -24,6 +24,17 @@ a{
   color:rgb(91, 91, 157);
 }
 
+#audio{
+  margin-top: 5em;
+}
+
+nav li a,#numero_notis{
+
+  vertical-align: middle;
+  display: inline-block;
+}
+
+
 #contenedor{
 
   text-align: center;
@@ -47,7 +58,10 @@ header{
   width: 100%;
   background: black;
   text-align: center;
+  position: fixed;
+ margin-top: -5em;
 
+  opacity:0.7;
 
  
 
@@ -73,14 +87,16 @@ header h1,nav{
   vertical-align: middle;
   display: inline-block;
   color: white;
-  width: 20%;
+  width: 16%;
 
 
 }
-
+header h1{
+ margin-top: -15px;
+}
 nav{
 
-    width: 72%;
+    width: 80%;
 
     
   }
@@ -108,7 +124,7 @@ height: 55px;
 ul,ol{
 
   list-style: none;
-  
+  opacity:1;
   
 
 }
@@ -129,7 +145,7 @@ ul,ol{
   -o-transition: all 0.5s ease-in;
   -webkit-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
-
+opacity:1;
 
 
 }
@@ -143,6 +159,7 @@ ul,ol{
   -o-transition: all 0.5s ease-out;
   -webkit-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
+  opacity:1;
 
 }
 
@@ -160,20 +177,20 @@ ul,ol{
   position: absolute;
   min-width: 165px;
   text-align: middle;
-
+ opacity:1;
 
 }
 
 .nav li:hover>ul{
 
   display: block;
-
+opacity:1;
 
 }
 
 .nav li ul li{
 
-
+opacity:1;
   position: relative;
 }
 
@@ -181,6 +198,9 @@ ul,ol{
 div#top-menu ul li a.selected {
 
   vertical-align: middle;
+
+
+  opacity:1;
 }
 
 
@@ -336,7 +356,9 @@ table{
  font-family: 'Open Sans', sans-serif;
  font-size: 12px;
  width: 100%;
- 
+   visibility: visible;
+  opacity: 1;
+  transition: opacity 12s linear;
 }
 
 tr{
@@ -535,12 +557,20 @@ input#username,input#password,input#button{
 
   padding: 2em;
   font-family: 'Lato', sans-serif;
-  font-size: 40px;
+  font-size: 30px;
   border: 1px;
     border-style: solid;
     margin: 1em;
     border-color: #a79999;
 
+}
+
+form.ticket{
+  width:100%;
+  padding:0em;
+}
+#form{
+  width:77%;
 }
 
 

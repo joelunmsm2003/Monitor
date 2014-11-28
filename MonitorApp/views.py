@@ -87,25 +87,30 @@ def realtime(request):
 def realtime_post(request):
 
 	counter = request.POST['count']
+	nsoporte = request.POST['soporte']
 
-	Ticket.objects.all().order_by('-id')[:1]
+	nsoporte_act = Soporte.objects.count()
+
 
 	
 
 	counter_act = Ticket.objects.count()
-	m = {'counter_act': counter_act}  
-	n = json.dumps(m)  
-	print str(counter) +" "+ str(counter_act)
 
 	
-	if (str(counter) != str(counter_act)):
+	m = {'counter_act': counter_act,'soporte_act':nsoporte_act}  
+	n = json.dumps(m)  
+	
+
+	
+	if ((str(counter) != str(counter_act))or(str(nsoporte)!=str(nsoporte_act))):
 
 
 		print 'entro'
 		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
-
+		soporte_nuevo = Soporte.objects.all().order_by('-id')[:1]
+		soporte_nuevo = serializers.serialize("json",soporte_nuevo)
 		data = serializers.serialize("json",ticket_nuevo)
-		data = { 'data' : data, 'n' : n }
+		data = { 'data' : data, 'n' : n ,'soporte_nuevo':soporte_nuevo}
 		data = json.dumps(data)
 
 		print data
@@ -158,21 +163,25 @@ def ticket_add(request):
 def ticket(request,estado):
 
 	id = request.user.id
-
-	ticket = Ticket.objects.filter(estado=estado).order_by('-id')
+	count= Ticket.objects.count()
+	nsoporte = Soporte.objects.count()
+	
 	soporte = Soporte.objects.filter(fecha_fin=None)
 
 
 	x=User.objects.get(pk=id)
+
 	grupo =x.groups.get()
+	grupo= str(grupo)
+
 	username = request.user.username
 	tipos=Tipo.objects.all()
-	grupo= str(grupo)
 	
-	if str(grupo) == 'Clientes':
-		grupo_flag = 1
+	if grupo == 'Clientes':
+		
+		ticket = Ticket.objects.filter(estado=estado,cliente_id=id).order_by('-id')
 	else:
-		grupo_flag = 0
+		ticket = Ticket.objects.filter(estado=estado).order_by('-id')
 
 	
 	if request.method == 'POST':
@@ -210,7 +219,7 @@ def ticket(request,estado):
 	if str(estado)=='4': 
 		estado_name= 'Cerrados'
 
-	return render(request, 'home.html', {'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo,'grupo_flag':grupo_flag})
+	return render(request, 'home.html', {'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
 
 def logeate(request):
  
@@ -289,13 +298,9 @@ def atender(request,id):
 		ticket.save()
 		
 		msj='El ticket '+ticket.asunto+' esta siendo atendido'
-		#return render(request, 'home.html', {'username':username,'grupo':grupo,'tipos':tipos,'msj':msj,'ticket':ticket_pendiente})
-		return HttpResponseRedirect("/ticket/2")
+		return render(request, 'home.html', {'username':username,'grupo':grupo,'tipos':tipos,'msj':msj,'ticket':ticket_pendiente})
+	
 
-	if ticket.estado_id == 2:
-		msj = ''
-		return HttpResponseRedirect("/ticket/2")
-		#return render(request, 'home.html', {'username':username,'grupo':grupo,'tipos':tipos,'msj':msj,'ticket':ticket_pendiente})
 
 
 
@@ -421,7 +426,4 @@ def ver_evento(request,id,id_ticket):
 
 	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
 
-def header_ticket(request):
 
-
-	return render(request, 'header_ticket.html', {})

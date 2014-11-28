@@ -127,14 +127,20 @@ count = $('#count').text()
 
               if (typeof(json.n)!='undefined'){
 
-                console.log(json.data)
+              
 
                 x = $.parseJSON(json.n).counter_act;
                 c = $.parseJSON(json.data)
                   $('#orillamada').prepend('<table><tr><td width=10%><a href="/ver_usuario/'+c[0].fields.cliente+'">'+c[0].fields.cliente+'</a></td><td width=10%>'+c[0].fields.asunto+'</td><td width=10%>'+c[0].fields.tipo+'</td><td width=10%>'+c[0].fields.fecha_inicio+'</td><td width=10%>'+c[0].fields.estado+'</td><td width=10%><a href="/detalle_ticket/'+c[0].pk+'">Mas detalle</a></td><td width=10%><a href="/atender/'+c[0].pk+'">Atender</a></td><tr></table>') 
 
 
-                $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>') 
+                $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
+
+                console.log(c[0].fields.asunto)
+
+                 $('#notificacion').append('<a href="/salir">Nuevo ticket :'+c[0].fields.asunto+'</a>')  
+
+
               }
               else{
 

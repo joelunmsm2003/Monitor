@@ -4,6 +4,7 @@
   <h1><a href='/ticket/1'>Logos {{grupo}}</a></h1>
 
 
+<title>Logos </title>
 
 <nav>
 
@@ -12,12 +13,10 @@
 
 <li><a href="/agregar_ticket">Agregar Ticket</a></li>
 
-<li><a href="/realtime">Real Time Ticket</a>
-
 
 
     </li>
-     <li><a href="/header_ticket">Tickets</a>
+     <li><a href="">Tickets</a>
 
          <ul class ='ticket_tipo'>
 
@@ -25,7 +24,7 @@
             <li><a href="/ticket/2">Atendidos</a></li>
             <li><a href="/ticket/3">En Prueba</a></li>
             <li><a href="/ticket/4">Cerrados</a></li>
-
+            <li><a href="/ticket/4">RealTime</a></li>
           
         </ul>
 
@@ -61,6 +60,16 @@
         </ul>
 
    </li>
+    <li><a href="">Notificaciones <div id ='numero_notis'></div></a>
+ <ul class ='ticket_tipo'>
+          <li><div id='notificacion'></div></li>
+     
+     
+          
+        </ul>
+
+
+   </li>
 
 
 
@@ -71,6 +80,90 @@
 
 </header>
 
+<div id='audio'></div>
+
+<div id='count'>{{count}}</div>
+<div id='soporte'>{{nsoporte}}</div>
+
+<script type="text/javascript">
+
+i=0  
+setInterval('moverItem()',2000);
+
+
+function moverItem() {
+count = $('#count').text()
+nsoporte = $('#soporte').text()
+                       
+    
+       $.ajax({
+                        url : "/realtime_post", 
+                        type : "POST",   
+                        dataType:"json",                
+                        data : {
+                            count: count,
+                            soporte: nsoporte,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                            success : function(json) {
+
+
+                var trs=$("#orillamada tr").length;
+                
+                if(trs==20){
+                $("#orillamada tr:last").remove();
+
+                }
+
+
+             
+
+              if (typeof(json.n)!='undefined'){
+
+                i=i+1
+             
+                
+                x = $.parseJSON(json.n).counter_act;
+                c = $.parseJSON(json.data)
+                soporte_new = $.parseJSON(json.n).soporte_act
+                
+                console.log(soporte_new)
+                console.log(nsoporte)
+                $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
+
+                if (parseInt(soporte_new)>parseInt(nsoporte)){
+
+                $("#soporte").text(soporte_new)
+                $('#notificacion').prepend('<a  href="/salir">Nuevo ticket :'+soporte[0].fields.fecha_inicio+'</a>')
+
+                }
+                else{
+                
+                $('#notificacion').prepend('<a  href="/salir">Nuevo ticket :'+c[0].fields.asunto+'</a>')
+                }
+
+                $('.noti').remove();
+                $('#numero_notis').append('<div class="noti">'+i+'</div>')
+                
+              }
+              else{
+
+                x=json.counter_act
+                nsoporte = json.soporte_act
+              }
+
+
+             
+               $("#count").text(x)
+              
+
+                            },
+                    });
+                    return false;
+}
+
+</script>
+
 <script>
 var ancho = $("header").css("width");
 
@@ -80,6 +173,6 @@ console.log(ancho)
 
 
 if (ancho <= 720){
-  $( ".ticket_tipo" ).remove();
+ // $( ".ticket_tipo" ).remove();
 }
 </script>
