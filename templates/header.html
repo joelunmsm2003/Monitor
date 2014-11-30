@@ -156,10 +156,14 @@ function moverItem() {
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
                 }
 
+                console.log(c)
+                console.log(sop)
+                console.log(sev)
+
                 if (parseInt(z)>parseInt(nevento)){
                 i=i+1
                   console.log('entro')
-                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sev[0].pk+'">Nuevo evento '+sev[0].pk+'</a></li>')
+                $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+sev[0].pk+'</a></li>')
                 }
 
 
