@@ -94,27 +94,31 @@ def realtime_post(request):
 	nsoporte_act = Soporte.objects.count()
 	counter_act = Ticket.objects.count()
 	evento_act = Evento.objects.count()
+
+	id = request.user.id
+	x=User.objects.get(pk=id)
+	grupo =x.groups.get()
+	grupo=str(grupo)
 	
 	m = {'counter_act': counter_act,'soporte_act':nsoporte_act,'evento_act':evento_act}  
 	n = json.dumps(m)  
 	
-	print nsoporte
-	print nsoporte_act
-	print nevento
-	
-
 	
 	if ((str(counter) != str(counter_act))or(str(nsoporte)!=str(nsoporte_act))or(str(nevento)!=str(evento_act))):
 
-
-		print 'entro'
 		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
 		soporte_nuevo = Soporte.objects.all().order_by('-id')[:1]
 		evento_nuevo = Evento.objects.all().order_by('-id')[:1]
+
+		
+
+
 		soporte_nuevo = serializers.serialize("json",soporte_nuevo)
 		evento_nuevo = serializers.serialize("json",evento_nuevo)
 		data = serializers.serialize("json",ticket_nuevo)
-		data = { 'data' : data, 'n' : n ,'snuevo':soporte_nuevo,'sevento':evento_nuevo}
+
+
+		data = {'grupo':grupo,'id':id,'data' : data, 'n' : n ,'snuevo':soporte_nuevo,'sevento':evento_nuevo}
 		data = json.dumps(data)
 
 	
@@ -136,6 +140,7 @@ def ticket_add(request):
 	tipos=Tipo.objects.all()
 	estado_name=str('Nuevos')
 	
+
 
 	if request.method == 'POST':
 
@@ -231,7 +236,7 @@ def ticket(request,estado):
 
 	event = Evento.objects.count()
 
-	print grupo
+
 
 	if grupo == 'Soporte':
 
@@ -363,7 +368,7 @@ def reasignar_add(request):
 		form = FormTicket(request.POST)
 		username = request.user.username
 		soporte_user = request.POST['soporte']
-		print soporte_user
+		
 		id_ticket = request.POST['id_ticket']
 		ticket = Ticket.objects.get(id=id_ticket)
 		id = request.POST['id']
@@ -483,7 +488,7 @@ def realtime_post_monitor(request):
 	counter_act = Ticket.objects.count()
 	m = {'counter_act': counter_act}  
 	n = json.dumps(m)  
-	print str(counter) +" "+ str(counter_act)
+	
 
 	
 	if (str(counter) != str(counter_act)):
@@ -495,7 +500,7 @@ def realtime_post_monitor(request):
 		data = { 'data' : data, 'n' : n }
 		data = json.dumps(data)
 
-		print data
+		
 		return HttpResponse(data)
 	
 

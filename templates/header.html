@@ -99,6 +99,7 @@ setInterval('moverItem()',1000);
 
 function moverItem() {
 
+    f=0
     $( "#count" ).hide();
     $( "#soportex" ).hide();
     $( "#evento" ).hide();
@@ -144,24 +145,44 @@ function moverItem() {
                
          
                 $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
+
+
               
                 if (parseInt(y)>parseInt(nsoporte)){
                 
                 i=i+1
+
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
                   '">Se atendio el ticket '+c[0].fields.asunto+'</a></li>')
             
 
                 }
+                console.log(c[0].fields.cliente)
+                console.log(json.id)
+                console.log(json.grupo)
+
                 if (parseInt(x)>parseInt(count)){
-                i=i+1
-                  
-                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
+                
+                
+                if(json.grupo=='Soporte'){
+                  f=1
+                  i=i+1
+                  $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
+                }
+                else{
+                    if(json.id==c[0].fields.cliente){
+                      f=1
+                      i=i+1
+                      $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
+
+                    }
+
+                }
+                
+
                 }
 
-                console.log(c)
-                console.log(sop)
-                console.log(sev)
+            
 
                 if (parseInt(z)>parseInt(nevento)){
                 i=i+1
@@ -173,7 +194,7 @@ function moverItem() {
 
                 
                
-                   if (parseInt(i)==parseInt(0)){
+                   if (parseInt(i)==parseInt(0) & f!=1){
 
                    }
                    else{
