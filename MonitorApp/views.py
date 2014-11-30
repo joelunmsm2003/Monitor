@@ -87,18 +87,17 @@ def realtime(request):
 def realtime_post(request):
 
 	counter = request.POST['count']
-	nsoporte = request.POST['soporte']
+	nsoporte = request.POST['soportez']
 
 	nsoporte_act = Soporte.objects.count()
-
-
-	
-
 	counter_act = Ticket.objects.count()
 
 	
 	m = {'counter_act': counter_act,'soporte_act':nsoporte_act}  
 	n = json.dumps(m)  
+	
+	print nsoporte
+	print nsoporte_act
 	
 
 	
@@ -110,10 +109,10 @@ def realtime_post(request):
 		soporte_nuevo = Soporte.objects.all().order_by('-id')[:1]
 		soporte_nuevo = serializers.serialize("json",soporte_nuevo)
 		data = serializers.serialize("json",ticket_nuevo)
-		data = { 'data' : data, 'n' : n ,'soporte_nuevo':soporte_nuevo}
+		data = { 'data' : data, 'n' : n ,'snuevo':soporte_nuevo}
 		data = json.dumps(data)
 
-		print data
+	
 		return HttpResponse(data)
 	
 
@@ -293,13 +292,12 @@ def atender(request,id):
 	fecha_inicio = datetime.datetime.today()
 
 	if ticket.estado_id ==1 :
+
 		soporte=ticket.soporte_set.create(fecha_inicio=fecha_inicio,soporte_id=id_soporte)
 		ticket.estado_id = 2
 		ticket.save()
 		
-		msj='El ticket '+ticket.asunto+' esta siendo atendido'
-		return render(request, 'home.html', {'username':username,'grupo':grupo,'tipos':tipos,'msj':msj,'ticket':ticket_pendiente})
-	
+		return HttpResponseRedirect("/ticket/1")
 
 
 

@@ -83,26 +83,28 @@
 <div id='audio'></div>
 
 <div id='count'>{{count}}</div>
-<div id='soporte'>{{nsoporte}}</div>
+<div id='soportex'>{{nsoporte}}</div>
 
 <script type="text/javascript">
 
 i=0  
-setInterval('moverItem()',2000);
+setInterval('moverItem()',1000);
+
 
 
 function moverItem() {
-count = $('#count').text()
-nsoporte = $('#soporte').text()
-                       
-    
+
+      count = $('#count').text()
+      nsoporte = $('#soportex').text()
+
+       console.log(nsoporte)
        $.ajax({
                         url : "/realtime_post", 
                         type : "POST",   
                         dataType:"json",                
                         data : {
                             count: count,
-                            soporte: nsoporte,
+                            soportez: nsoporte,
                             csrfmiddlewaretoken: '{{ csrf_token }}'
                             },
                             success : function(json) {
@@ -116,45 +118,46 @@ nsoporte = $('#soporte').text()
                 }
 
 
-             
-
+              console.log(json.n)
+           
               if (typeof(json.n)!='undefined'){
 
-                i=i+1
+                
              
                 
                 x = $.parseJSON(json.n).counter_act;
                 c = $.parseJSON(json.data)
-                soporte_new = $.parseJSON(json.n).soporte_act
-                
-                console.log(soporte_new)
-                console.log(nsoporte)
+                y = $.parseJSON(json.n).soporte_act
+                sop = $.parseJSON(json.snuevo)
+         
                 $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
-
-                if (parseInt(soporte_new)>parseInt(nsoporte)){
-
-                $("#soporte").text(soporte_new)
-                $('#notificacion').prepend('<a  href="/salir">Nuevo ticket :'+soporte[0].fields.fecha_inicio+'</a>')
+              
+                if (parseInt(y)>parseInt(nsoporte)){
+                  console.log('entro')
+                i=i+1
+                $('#notificacion').prepend('<a  href="/salir">Se atendio el ticket:'+sop[0].fields.ticket+'</a>')
+            
 
                 }
                 else{
-                
+              
                 $('#notificacion').prepend('<a  href="/salir">Nuevo ticket :'+c[0].fields.asunto+'</a>')
                 }
-
                 $('.noti').remove();
                 $('#numero_notis').append('<div class="noti">'+i+'</div>')
+                
                 
               }
               else{
 
                 x=json.counter_act
-                nsoporte = json.soporte_act
+                y = json.soporte_act
+               
               }
 
-
-             
-               $("#count").text(x)
+              $("#soportex").text(parseInt(y))
+               $("#count").text(parseInt(x))
+           
               
 
                             },
