@@ -78,8 +78,9 @@ def realtime(request):
 	username = request.user.username
 	tipos=Tipo.objects.all()
 	estado_name=str('Nuevos')
+	noti = Notificaciones.objects.all().order_by('-id')[:5]
 
-	return render(request, 'realtime.html', {'count':count,'estado_name':estado_name,'tipos':tipos,'username':username,'ticket':ticket,'grupo':grupo})
+	return render(request, 'realtime.html', {'noti':noti,'count':count,'estado_name':estado_name,'tipos':tipos,'username':username,'ticket':ticket,'grupo':grupo})
 
 
 
@@ -150,6 +151,11 @@ def ticket_add(request):
 		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
 	
 		c.save()
+
+		noti=c.notificaciones_set.create(name='Ticket nuevo -',fecha_inicio=fecha_inicio)
+		noti.save()
+
+
 		return HttpResponseRedirect("/ticket/1")
 	else:
 		form = FormTicket()
@@ -202,6 +208,7 @@ def ticket(request,estado):
 		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
 	
 		c.save()
+
 		
 		#return render(request, 'home.html', {'username':username,'form': form,'asunto':asunto,'ticket_pendiente':ticket_pendiente,'ticket_cerrado':ticket_cerrado,'grupo':grupo,'msj':msj})
 
@@ -218,7 +225,9 @@ def ticket(request,estado):
 	if str(estado)=='4': 
 		estado_name= 'Cerrados'
 
-	return render(request, 'home.html', {'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
+	noti = Notificaciones.objects.all().order_by('-id')[:5]
+
+	return render(request, 'home.html', {'noti':noti,'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
 
 def logeate(request):
  
@@ -296,6 +305,9 @@ def atender(request,id):
 		soporte=ticket.soporte_set.create(fecha_inicio=fecha_inicio,soporte_id=id_soporte)
 		ticket.estado_id = 2
 		ticket.save()
+
+		noti=ticket.notificaciones_set.create(name='Ticket atendido -',fecha_inicio=fecha_inicio)
+		noti.save()
 		
 		return HttpResponseRedirect("/ticket/1")
 
@@ -340,14 +352,20 @@ def reasignar_add(request):
 		id_ticket = request.POST['id_ticket']
 		ticket = Ticket.objects.get(id=id_ticket)
 		id = request.POST['id']
-		
+		fecha_inicio = datetime.datetime.today()
 		soporte = Soporte.objects.get(id=id)
 		fecha_fin = datetime.datetime.today()
 		soporte.fecha_fin = fecha_fin
 
 		soporte.save()
 
+
+
 		ticket.soporte_set.create(fecha_inicio=fecha_fin,soporte_id=soporte_user)
+
+
+		noti=ticket.notificaciones_set.create(name='Ticket reasignado -',fecha_inicio=fecha_inicio)
+		noti.save()
 
 		return HttpResponseRedirect("/detalle_ticket/"+id_ticket+"/")
 
@@ -387,8 +405,9 @@ def detalle_ticket(request,id):
 	x=User.objects.get(username=username)
 	grupo =x.groups.get()
 	grupo= str(grupo)
+	noti = Notificaciones.objects.all().order_by('-id')[:5]
 
-	return render(request, 'detalle_ticket.html', {'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
+	return render(request, 'detalle_ticket.html', {'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
 
 def evento(request,id,id_ticket):
 
@@ -412,6 +431,9 @@ def evento_add(request):
 		soporte = Soporte.objects.get(id=soporte_id)
 		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name,user_id=user)
 
+		noti=soporte.ticket.notificaciones_set.create(name='Ticket evento-',fecha_inicio=fecha_inicio)
+		noti.save()
+
 		return HttpResponseRedirect("/ver_evento/"+soporte_id+"/"+evento_id)
 
 def ver_evento(request,id,id_ticket):
@@ -425,3 +447,33 @@ def ver_evento(request,id,id_ticket):
 	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
 
 
+def realtime_post_monitor(request):
+
+	counter = request.POST['count']
+
+	Ticket.objects.all().order_by('-id')[:1]
+
+
+
+	counter_act = Ticket.objects.count()
+	m = {'counter_act': counter_act}  
+	n = json.dumps(m)  
+	print str(counter) +" "+ str(counter_act)
+
+	
+	if (str(counter) != str(counter_act)):
+
+
+		print 'entro'
+		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
+		data = serializers.serialize("json",ticket_nuevo)
+		data = { 'data' : data, 'n' : n }
+		data = json.dumps(data)
+
+		print data
+		return HttpResponse(data)
+	
+
+
+	return HttpResponse(n)
+		

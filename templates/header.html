@@ -24,7 +24,7 @@
             <li><a href="/ticket/2">Atendidos</a></li>
             <li><a href="/ticket/3">En Prueba</a></li>
             <li><a href="/ticket/4">Cerrados</a></li>
-            <li><a href="/ticket/4">RealTime</a></li>
+            <li><a href="/realtime">RealTime</a></li>
           
         </ul>
 
@@ -52,7 +52,7 @@
 
    <li><a href="">Bienvenido, {{username}}</a>
 
-   <ul class ='ticket_tipo'>
+        <ul class ='ticket_tipo'>
           <li><a href="/salir">Salir</a></li>
      
      
@@ -63,6 +63,11 @@
     <li><a href="">Notificaciones  <div id ='numero_notis'></div></a>
  <ul class ='ticket_tipo'>
          <div id='notificacion'></div>
+
+          {% for noti in noti %}
+          <li><a href="/detalle_ticket/{{noti.ticket_id}}">  {{noti.name}} {{noti.ticket}}</a></li>
+          {% endfor %}
+
      
      
           
@@ -99,7 +104,7 @@ function moverItem() {
       count = $('#count').text()
       nsoporte = $('#soportex').text()
 
-       console.log(nsoporte)
+       
        $.ajax({
                         url : "/realtime_post", 
                         type : "POST",   
@@ -135,20 +140,21 @@ function moverItem() {
                 $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
               
                 if (parseInt(y)>parseInt(nsoporte)){
-                  console.log('entro')
+                
                 i=i+1
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
                   '">Se atendio el ticket '+sop[0].fields.ticket+'</a></li>')
             
 
                 }
-                else{
+                if (parseInt(x)>parseInt(count)){
                 i=i+1
+                  console.log('entro')
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
                 }
                 $('.noti').remove();
                 $('#numero_notis').append('<div class="noti">'+i+'</div>')
-                $('.title').text('Logos '+i)
+                $('.title').text('('+i+')'+' LOGOS')
                 
               }
               else{

@@ -64,6 +64,20 @@ class Evento(models.Model):
 		return self.name
 
 
+class Notificaciones(models.Model):
+
+	id = models.AutoField(max_length=100,primary_key=True)
+	ticket = models.ForeignKey(Ticket)
+	tipo =models.CharField(max_length=100,blank=True)
+	name = models.CharField(max_length=100,blank=True)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
+	comentario = models.CharField(max_length=100,blank=True)
+	def __str__(self):              # __unicode__ on Python 2
+		return self.name
+
+
+
+
 
 
 
