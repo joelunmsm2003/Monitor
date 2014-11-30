@@ -4,7 +4,7 @@
   <h1><a href='/ticket/1'>Logos {{grupo}}</a></h1>
 
 
-<title>Logos </title>
+<title class='title'>Logos</title>
 
 <nav>
 
@@ -60,9 +60,9 @@
         </ul>
 
    </li>
-    <li><a href="">Notificaciones <div id ='numero_notis'></div></a>
+    <li><a href="">Notificaciones  <div id ='numero_notis'></div></a>
  <ul class ='ticket_tipo'>
-          <li><div id='notificacion'></div></li>
+         <div id='notificacion'></div>
      
      
           
@@ -94,6 +94,8 @@ setInterval('moverItem()',1000);
 
 function moverItem() {
 
+
+
       count = $('#count').text()
       nsoporte = $('#soportex').text()
 
@@ -117,8 +119,6 @@ function moverItem() {
 
                 }
 
-
-              console.log(json.n)
            
               if (typeof(json.n)!='undefined'){
 
@@ -129,23 +129,26 @@ function moverItem() {
                 c = $.parseJSON(json.data)
                 y = $.parseJSON(json.n).soporte_act
                 sop = $.parseJSON(json.snuevo)
+
+               
          
                 $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
               
                 if (parseInt(y)>parseInt(nsoporte)){
                   console.log('entro')
                 i=i+1
-                $('#notificacion').prepend('<a  href="/salir">Se atendio el ticket:'+sop[0].fields.ticket+'</a>')
+                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
+                  '">Se atendio el ticket '+sop[0].fields.ticket+'</a></li>')
             
 
                 }
                 else{
-              
-                $('#notificacion').prepend('<a  href="/salir">Nuevo ticket :'+c[0].fields.asunto+'</a>')
+                i=i+1
+                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
                 }
                 $('.noti').remove();
                 $('#numero_notis').append('<div class="noti">'+i+'</div>')
-                
+                $('.title').text('Logos '+i)
                 
               }
               else{
