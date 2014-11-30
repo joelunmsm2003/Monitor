@@ -150,10 +150,23 @@ function moverItem() {
               
                 if (parseInt(y)>parseInt(nsoporte)){
                 
-                i=i+1
 
-                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
+                if(json.grupo=='Soporte'){
+                  f=1
+                  i=i+1
+                   $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
                   '">Se atendio el ticket '+c[0].fields.asunto+'</a></li>')
+                }
+                else{
+                    if(json.id==c[0].fields.cliente){
+                      f=1
+                      i=i+1
+                       $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
+                  '">Se atendio el ticket '+c[0].fields.asunto+'</a></li>')
+
+                    }
+
+                }
             
 
                 }
@@ -186,8 +199,25 @@ function moverItem() {
 
                 if (parseInt(z)>parseInt(nevento)){
                 i=i+1
-                  console.log('entro')
-                $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+c[0].fields.asunto+'</a></li>')
+
+                if(json.grupo=='Soporte'){
+                  f=1
+                  i=i+1
+
+                 $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+c[0].fields.asunto+'</a></li>')
+                }
+                else{
+                    if(json.id==c[0].fields.cliente){
+                      f=1
+                      i=i+1
+                  $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+c[0].fields.asunto+'</a></li>')
+
+                    }
+
+                }
+                
+
+
                 }
 
 
