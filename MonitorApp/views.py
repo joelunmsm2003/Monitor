@@ -229,8 +229,18 @@ def ticket(request,estado):
 	if str(estado)=='4': 
 		estado_name= 'Cerrados'
 
-	noti = Notificaciones.objects.all().order_by('-id')[:5]
 	event = Evento.objects.count()
+
+	print grupo
+
+	if grupo == 'Soporte':
+
+		noti = Notificaciones.objects.all().order_by('-id')[:5]
+
+	if grupo == 'Clientes':
+
+		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:5]
+		
 
 	return render(request, 'home.html', {'event':event,'noti':noti,'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
 
@@ -410,7 +420,16 @@ def detalle_ticket(request,id):
 	x=User.objects.get(username=username)
 	grupo =x.groups.get()
 	grupo= str(grupo)
-	noti = Notificaciones.objects.all().order_by('-id')[:5]
+
+	if grupo == 'Soporte':
+
+		noti = Notificaciones.objects.all().order_by('-id')[:5]
+
+	if grupo == 'Clientes':
+
+		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:5]
+		
+	
 	event = Evento.objects.count()
 
 	return render(request, 'detalle_ticket.html', {'event':event,'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
