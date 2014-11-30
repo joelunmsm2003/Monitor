@@ -89,6 +89,7 @@
 
 <div id='count'>{{count}}</div>
 <div id='soportex'>{{nsoporte}}</div>
+<div id='evento'>{{event}}</div>
 
 <script type="text/javascript">
 
@@ -103,7 +104,7 @@ function moverItem() {
 
       count = $('#count').text()
       nsoporte = $('#soportex').text()
-
+      nevento = $('#evento').text()
        
        $.ajax({
                         url : "/realtime_post", 
@@ -112,6 +113,7 @@ function moverItem() {
                         data : {
                             count: count,
                             soportez: nsoporte,
+                            eventox:nevento,
                             csrfmiddlewaretoken: '{{ csrf_token }}'
                             },
                             success : function(json) {
@@ -133,8 +135,9 @@ function moverItem() {
                 x = $.parseJSON(json.n).counter_act;
                 c = $.parseJSON(json.data)
                 y = $.parseJSON(json.n).soporte_act
+                z= $.parseJSON(json.n).evento_act
                 sop = $.parseJSON(json.snuevo)
-
+                sev = $.parseJSON(json.sevento)
                
          
                 $('#audio').append('<audio src="http://k10.offliberty.com/wmLmjawU62o.mp3" autoplay></audio>')
@@ -149,9 +152,18 @@ function moverItem() {
                 }
                 if (parseInt(x)>parseInt(count)){
                 i=i+1
-                  console.log('entro')
+                  
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+c[0].pk+'">Nuevo ticket '+c[0].fields.asunto+'</a></li>')
                 }
+
+                if (parseInt(z)>parseInt(nevento)){
+                i=i+1
+                  console.log('entro')
+                $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sev[0].pk+'">Nuevo evento '+sev[0].pk+'</a></li>')
+                }
+
+
+
                 $('.noti').remove();
                 $('#numero_notis').append('<div class="noti">'+i+'</div>')
                 $('.title').text('('+i+')'+' LOGOS')
@@ -161,12 +173,12 @@ function moverItem() {
 
                 x=json.counter_act
                 y = json.soporte_act
-               
+                z = json.evento_act
               }
 
               $("#soportex").text(parseInt(y))
                $("#count").text(parseInt(x))
-           
+              $("#evento").text(parseInt(z))
               
 
                             },

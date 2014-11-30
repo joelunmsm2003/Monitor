@@ -89,28 +89,32 @@ def realtime_post(request):
 
 	counter = request.POST['count']
 	nsoporte = request.POST['soportez']
+	nevento = request.POST['eventox']
 
 	nsoporte_act = Soporte.objects.count()
 	counter_act = Ticket.objects.count()
-
+	evento_act = Evento.objects.count()
 	
-	m = {'counter_act': counter_act,'soporte_act':nsoporte_act}  
+	m = {'counter_act': counter_act,'soporte_act':nsoporte_act,'evento_act':evento_act}  
 	n = json.dumps(m)  
 	
 	print nsoporte
 	print nsoporte_act
+	print nevento
 	
 
 	
-	if ((str(counter) != str(counter_act))or(str(nsoporte)!=str(nsoporte_act))):
+	if ((str(counter) != str(counter_act))or(str(nsoporte)!=str(nsoporte_act))or(str(nevento)!=str(evento_act))):
 
 
 		print 'entro'
 		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
 		soporte_nuevo = Soporte.objects.all().order_by('-id')[:1]
+		evento_nuevo = Evento.objects.all().order_by('-id')[:1]
 		soporte_nuevo = serializers.serialize("json",soporte_nuevo)
+		evento_nuevo = serializers.serialize("json",evento_nuevo)
 		data = serializers.serialize("json",ticket_nuevo)
-		data = { 'data' : data, 'n' : n ,'snuevo':soporte_nuevo}
+		data = { 'data' : data, 'n' : n ,'snuevo':soporte_nuevo,'sevento':evento_nuevo}
 		data = json.dumps(data)
 
 	
@@ -226,8 +230,9 @@ def ticket(request,estado):
 		estado_name= 'Cerrados'
 
 	noti = Notificaciones.objects.all().order_by('-id')[:5]
+	event = Evento.objects.count()
 
-	return render(request, 'home.html', {'noti':noti,'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
+	return render(request, 'home.html', {'event':event,'noti':noti,'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
 
 def logeate(request):
  
@@ -406,8 +411,9 @@ def detalle_ticket(request,id):
 	grupo =x.groups.get()
 	grupo= str(grupo)
 	noti = Notificaciones.objects.all().order_by('-id')[:5]
+	event = Evento.objects.count()
 
-	return render(request, 'detalle_ticket.html', {'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
+	return render(request, 'detalle_ticket.html', {'event':event,'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
 
 def evento(request,id,id_ticket):
 
@@ -441,10 +447,10 @@ def ver_evento(request,id,id_ticket):
 	ticket = Ticket.objects.get(id=id_ticket)
 	soporte = Soporte.objects.get(id=id)
 	evento = soporte.evento_set.all()
-	
+	event = Evento.objects.count()
 	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
 
-	return render(request, 'ver_evento.html', {'evento':evento,'soporte':soporte,'ticket':ticket})
+	return render(request, 'ver_evento.html', {'event':event,'evento':evento,'soporte':soporte,'ticket':ticket})
 
 
 def realtime_post_monitor(request):
