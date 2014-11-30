@@ -86,7 +86,6 @@
 </header>
 
 <div id='audio'></div>
-
 <div id='count'>{{count}}</div>
 <div id='soportex'>{{nsoporte}}</div>
 <div id='evento'>{{event}}</div>
@@ -99,6 +98,10 @@ setInterval('moverItem()',1000);
 
 
 function moverItem() {
+
+    $( "#count" ).hide();
+    $( "#soportex" ).hide();
+    $( "#evento" ).hide();
 
 
 
@@ -146,7 +149,7 @@ function moverItem() {
                 
                 i=i+1
                 $('#notificacion').prepend('<li><a href="/detalle_ticket/'+sop[0].fields.ticket+
-                  '">Se atendio el ticket '+sop[0].fields.ticket+'</a></li>')
+                  '">Se atendio el ticket '+c[0].fields.asunto+'</a></li>')
             
 
                 }
@@ -163,14 +166,24 @@ function moverItem() {
                 if (parseInt(z)>parseInt(nevento)){
                 i=i+1
                   console.log('entro')
-                $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+sev[0].pk+'</a></li>')
+                $('#notificacion').prepend('<li><a href="/ver_evento/'+sop[0].pk+'/'+c[0].pk+'">Nuevo evento '+c[0].fields.asunto+'</a></li>')
                 }
 
 
 
-                $('.noti').remove();
-                $('#numero_notis').append('<div class="noti">'+i+'</div>')
-                $('.title').text('('+i+')'+' LOGOS')
+                
+               
+                   if (parseInt(i)==parseInt(0)){
+
+                   }
+                   else{
+                    $('.noti').remove();
+                    $('#numero_notis').append('<div class="noti">'+i+'</div>')
+                    $('.title').text('('+i+')'+' Logos')
+                   }
+                   
+                
+               
                 
               }
               else{

@@ -22,6 +22,7 @@ Ticket {{ticket.asunto}}
     <td width='15%'>Fecha de Inicio</td>
     <td width='15%'>Fecha de Fin</td>
     <td width='10%' >Estado</td>
+    <td width='10%' >Accion</td>
     <td width='50%'>Descripcion</td>
 
   </tr>
@@ -34,6 +35,7 @@ Ticket {{ticket.asunto}}
 	<td width='10%'>{{ticket.fecha_inicio}}</td>
 	<td width='10%'>{{ticket.fecha_fin}}</td>
 	<td width='10%'>{{ticket.estado}}</td>
+  <td width='10%'><a href='/atender/{{ticket.id}}'>Atender</a></td>
     <td width='50%'>{{ticket.descripcion}}</td>
 
 	</tr>

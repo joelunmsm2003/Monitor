@@ -314,7 +314,7 @@ def atender(request,id):
 		noti=ticket.notificaciones_set.create(name='Ticket atendido -',fecha_inicio=fecha_inicio)
 		noti.save()
 		
-		return HttpResponseRedirect("/ticket/1")
+		return HttpResponseRedirect("/ticket/2")
 
 
 
