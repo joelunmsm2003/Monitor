@@ -62,8 +62,8 @@ def agregar_ticket(request):
 		form = FormTicket()
 
 
-
-	return render(request,'agregar_ticket.html', {'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
+	return render(request,'agregar_ticket.html', {'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
 
 
 def realtime(request):
@@ -425,6 +425,9 @@ def detalle_ticket(request,id):
 	x=User.objects.get(username=username)
 	grupo =x.groups.get()
 	grupo= str(grupo)
+	estado= str(ticket.estado)
+
+	print estado
 
 	if grupo == 'Soporte':
 
@@ -437,7 +440,7 @@ def detalle_ticket(request,id):
 	
 	event = Evento.objects.count()
 
-	return render(request, 'detalle_ticket.html', {'event':event,'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
+	return render(request, 'detalle_ticket.html', {'estado':estado,'event':event,'noti':noti,'soportes':soportes,'username':username,'grupo':grupo,'tipos':tipos,'ticket':ticket})
 
 def evento(request,id,id_ticket):
 
@@ -473,7 +476,7 @@ def ver_evento(request,id,id_ticket):
 	evento = soporte.evento_set.all()
 	event = Evento.objects.count()
 	noti = Notificaciones.objects.all().order_by('-id')[:8]
-	soporte_abierto = Soporte.objects.get(fecha_fin=None)
+	soporte_abierto = Soporte.objects.filter(fecha_fin=None)
 
 	return render(request, 'ver_evento.html', {'soporte_abierto':soporte_abierto,'noti':noti,'event':event,'evento':evento,'soporte':soporte,'ticket':ticket})
 
@@ -519,15 +522,28 @@ def notificaciones(request):
 	grupo =x.groups.get()
 	grupo= str(grupo)
 	
+
+	if grupo == 'Soporte':
+
+		noti = Notificaciones.objects.all().order_by('-id')[:8]
+
+	if grupo == 'Clientes':
+
+		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:8]
+	
+	return render(request, 'notificaciones.html', {'noti':noti,'grupo':grupo,'username':username})
+
+
+def ver_evento_all(request,id_ticket):
+
+	ticket = Ticket.objects.get(id=id_ticket)
+	username = request.user.username
+	soporte = ticket.soporte_set.get(fecha_fin=None)
+
+	eventox = soporte.evento_set.all().order_by('-id')
 	noti = Notificaciones.objects.all().order_by('-id')[:8]
-	if(grupo=='Soporte'):
+	x=User.objects.get(username=username)
+	grupo =x.groups.get()
+	grupo= str(grupo)
 
-		notificaciones = Notificaciones.objects.all().order_by('-id')
-
-	else:
-		notificaciones = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')
-
-	return render(request, 'notificaciones.html', {'noti':noti,'notificaciones':notificaciones,'grupo':grupo,'username':username})
-
-
-		
+	return render(request, 'ver_evento_all.html', {'grupo':grupo,'noti':noti,'username':username,'soporte':soporte,'ticket':ticket,'evento':eventox})

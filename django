@@ -16,3 +16,8 @@ User.objects.all().values_list('id')
 
  User.objects.filter(groups__name='Soporte')
 
+
+--Listar
+
+x=Ticket.objects.get(id=1)
+x.soporte_set.all()
