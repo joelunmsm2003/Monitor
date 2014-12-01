@@ -65,9 +65,18 @@
          <div id='notificacion'></div>
 
           {% for noti in noti %}
-          <li><a href="/detalle_ticket/{{noti.ticket_id}}">  {{noti.name}} {{noti.ticket}}</a></li>
-          {% endfor %}
 
+            
+         
+            {% if noti.name == 'Ticket evento-' %}
+
+             <li><a href="/detalle_ticket/{{noti.ticket_id}}">  {{noti.name}} {{noti.ticket}}</a></li>
+             {% else %}
+              <li><a href="/detalle_ticket/{{noti.ticket_id}}">  {{noti.name}} {{noti.ticket}}</a></li>
+
+            {% endif %}
+          {% endfor %}
+          <li><a href="/notificaciones">Ver todas las Notificaciones</a></li>
      
      
           

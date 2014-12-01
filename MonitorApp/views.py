@@ -78,7 +78,7 @@ def realtime(request):
 	username = request.user.username
 	tipos=Tipo.objects.all()
 	estado_name=str('Nuevos')
-	noti = Notificaciones.objects.all().order_by('-id')[:5]
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
 
 	return render(request, 'realtime.html', {'noti':noti,'count':count,'estado_name':estado_name,'tipos':tipos,'username':username,'ticket':ticket,'grupo':grupo})
 
@@ -240,11 +240,11 @@ def ticket(request,estado):
 
 	if grupo == 'Soporte':
 
-		noti = Notificaciones.objects.all().order_by('-id')[:5]
+		noti = Notificaciones.objects.all().order_by('-id')[:8]
 
 	if grupo == 'Clientes':
 
-		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:5]
+		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:8]
 		
 
 	return render(request, 'home.html', {'event':event,'noti':noti,'nsoporte':nsoporte,'count':count,'soporte':soporte,'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
@@ -428,11 +428,11 @@ def detalle_ticket(request,id):
 
 	if grupo == 'Soporte':
 
-		noti = Notificaciones.objects.all().order_by('-id')[:5]
+		noti = Notificaciones.objects.all().order_by('-id')[:8]
 
 	if grupo == 'Clientes':
 
-		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:5]
+		noti = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')[:8]
 		
 	
 	event = Evento.objects.count()
@@ -472,9 +472,10 @@ def ver_evento(request,id,id_ticket):
 	soporte = Soporte.objects.get(id=id)
 	evento = soporte.evento_set.all()
 	event = Evento.objects.count()
-	#soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name)
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
+	soporte_abierto = Soporte.objects.get(fecha_fin=None)
 
-	return render(request, 'ver_evento.html', {'event':event,'evento':evento,'soporte':soporte,'ticket':ticket})
+	return render(request, 'ver_evento.html', {'soporte_abierto':soporte_abierto,'noti':noti,'event':event,'evento':evento,'soporte':soporte,'ticket':ticket})
 
 
 def realtime_post_monitor(request):
@@ -506,4 +507,27 @@ def realtime_post_monitor(request):
 
 
 	return HttpResponse(n)
+
+
+def notificaciones(request):
+
+	
+	username = request.user.username
+
+
+	x=User.objects.get(username=username)
+	grupo =x.groups.get()
+	grupo= str(grupo)
+	
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
+	if(grupo=='Soporte'):
+
+		notificaciones = Notificaciones.objects.all().order_by('-id')
+
+	else:
+		notificaciones = Notificaciones.objects.filter(ticket__cliente=request.user.id).order_by('-id')
+
+	return render(request, 'notificaciones.html', {'noti':noti,'notificaciones':notificaciones,'grupo':grupo,'username':username})
+
+
 		

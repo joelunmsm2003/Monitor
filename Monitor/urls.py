@@ -29,5 +29,5 @@ urlpatterns = patterns('',
 	url(r'^realtime/$', 'MonitorApp.views.realtime'),
 	url(r'^agregar_ticket/$', 'MonitorApp.views.agregar_ticket'),
 	url(r'^ver_usuario/(\d+)/$', 'MonitorApp.views.ver_usuario'),
-
+	url(r'^notificaciones/$', 'MonitorApp.views.notificaciones'),
 )
