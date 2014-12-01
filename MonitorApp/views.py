@@ -6,11 +6,13 @@ from django.core import serializers
 import simplejson
 from django.contrib.auth.decorators import login_required
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from MonitorApp.models import *
 import datetime
 from django.core import serializers
 import json  
+
+
 
 def ver_usuario(request,id):
 
@@ -547,3 +549,31 @@ def ver_evento_all(request,id_ticket):
 	grupo= str(grupo)
 
 	return render(request, 'ver_evento_all.html', {'grupo':grupo,'noti':noti,'username':username,'soporte':soporte,'ticket':ticket,'evento':eventox})
+
+
+
+
+
+
+def list(request):
+
+
+	if request.method == 'POST':
+
+		form = DocumentForm(request.POST, request.FILES)
+
+		print form
+		if form.is_valid():
+			print 'entro'
+			newdoc = Document(docfile = request.FILES['docfile'])
+			print newdoc
+			newdoc.save()
+			# Redirect to the document list after POST
+			return HttpResponseRedirect('MonitorApp.views.list')
+	else:
+		form = DocumentForm() # A empty, unbound form
+
+	# Load documents for the list page
+	documents = Document.objects.all()
+	return render(request,'list.html', {'documents': documents,'form': form})
+

@@ -31,4 +31,5 @@ urlpatterns = patterns('',
 	url(r'^ver_usuario/(\d+)/$', 'MonitorApp.views.ver_usuario'),
 	url(r'^notificaciones/$', 'MonitorApp.views.notificaciones'),
 	url(r'^ver_evento_all/(\d+)/$', 'MonitorApp.views.ver_evento_all'),
+	url(r'^list/$', 'MonitorApp.views.list'),
 )

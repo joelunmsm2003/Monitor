@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import Group, User
 from django import forms
 
+
 class FormTicket(forms.Form):
 
     cc_myself = forms.BooleanField(required=False)
@@ -74,6 +75,16 @@ class Notificaciones(models.Model):
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
+
+
+class Document(models.Model):
+	docfile = models.FileField(upload_to='/home/andy/Escritorio')
+
+class DocumentForm(forms.Form):
+	docfile = forms.FileField(
+    	label='Select a file',
+    	help_text='max. 42 megabytes'
+    )
 
 
 
