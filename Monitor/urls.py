@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.views.generic import RedirectView
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -31,5 +33,7 @@ urlpatterns = patterns('',
 	url(r'^ver_usuario/(\d+)/$', 'MonitorApp.views.ver_usuario'),
 	url(r'^notificaciones/$', 'MonitorApp.views.notificaciones'),
 	url(r'^ver_evento_all/(\d+)/$', 'MonitorApp.views.ver_evento_all'),
-	url(r'^list/$', 'MonitorApp.views.list'),
+	url(r'^list/$', 'MonitorApp.views.list', name='list'),
 )
+
+

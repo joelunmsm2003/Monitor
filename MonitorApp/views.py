@@ -11,7 +11,9 @@ from MonitorApp.models import *
 import datetime
 from django.core import serializers
 import json  
-
+from MonitorApp.models import Document
+from MonitorApp.forms import DocumentForm
+from django.core.urlresolvers import reverse
 
 
 def ver_usuario(request,id):
@@ -62,10 +64,11 @@ def agregar_ticket(request):
 		return HttpResponseRedirect("/ticket/1")
 	else:
 		form = FormTicket()
+		form_document = DocumentForm()
 
 
 	noti = Notificaciones.objects.all().order_by('-id')[:8]
-	return render(request,'agregar_ticket.html', {'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
+	return render(request,'agregar_ticket.html', {'form_document':form_document,'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
 
 
 def realtime(request):
@@ -550,30 +553,27 @@ def ver_evento_all(request,id_ticket):
 
 	return render(request, 'ver_evento_all.html', {'grupo':grupo,'noti':noti,'username':username,'soporte':soporte,'ticket':ticket,'evento':eventox})
 
-
-
-
-
-
 def list(request):
+    # Handle file upload
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
 
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('MonitorApp.views.list'))
+    else:
+        form = DocumentForm() # A empty, unbound form
 
-	if request.method == 'POST':
+    # Load documents for the list page
+    documents = Document.objects.all()
 
-		form = DocumentForm(request.POST, request.FILES)
+    print documents
 
-		print form
-		if form.is_valid():
-			print 'entro'
-			newdoc = Document(docfile = request.FILES['docfile'])
-			print newdoc
-			newdoc.save()
-			# Redirect to the document list after POST
-			return HttpResponseRedirect('MonitorApp.views.list')
-	else:
-		form = DocumentForm() # A empty, unbound form
-
-	# Load documents for the list page
-	documents = Document.objects.all()
-	return render(request,'list.html', {'documents': documents,'form': form})
-
+    # Render list page with the documents and the form
+    return render_to_response(
+        'myapp/list.html',
+        {'documents': documents, 'form': form},
+        context_instance=RequestContext(request)
+    )

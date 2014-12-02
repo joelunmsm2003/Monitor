@@ -1,0 +1,9 @@
+DAP-1155 Firmware Release Note 
+Firmware: v1.01 
+Hardware: A1 
+Date: 19, Jan, 2012 
+ 
+Problems Resolved: 
+1.  NA 
+Enhancements: 
+1.  Enhance WPS-PIN security concern 

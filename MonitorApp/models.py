@@ -78,13 +78,9 @@ class Notificaciones(models.Model):
 
 
 class Document(models.Model):
-	docfile = models.FileField(upload_to='/home/andy/Escritorio')
+	docfile = models.FileField(upload_to='')
 
-class DocumentForm(forms.Form):
-	docfile = forms.FileField(
-    	label='Select a file',
-    	help_text='max. 42 megabytes'
-    )
+
 
 
 

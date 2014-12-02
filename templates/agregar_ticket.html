@@ -31,9 +31,21 @@ Generar un Ticket
     <textarea id="field" name="descripcion" rows="10" cols="30">
 
 	</textarea>
-  
-   
+
+    <p>{{ form_document.non_field_errors }}</p>
+    <p>{{ form_document.docfile.label_tag }} {{ form_document.docfile.help_text }}</p>
+    <p>
+        {{ form_documentdocfile.errors }}
+        {{ form_document.docfile }}
+    </p>
+
+    <br>
+    
     <label class='etiqueta'></label><div id='field'><input  id="field1" type="submit" value="Enviar Ticket" /></div>
+
+
+   
+
 
 </form>
 
