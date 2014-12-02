@@ -41,6 +41,11 @@ def agregar_ticket(request):
 	
 	if request.method == 'POST':
 
+		form_document = DocumentForm(request.POST, request.FILES)
+		
+		fileup = request.FILES['docfile']
+
+
 
 		form = FormTicket(request.POST)
 		
@@ -49,14 +54,16 @@ def agregar_ticket(request):
 		tipo = request.POST['tipo']
 		descripcion=request.POST['descripcion']
 
+
+
 		
 		fecha_inicio = datetime.datetime.today()
 		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
 		#tipo 1=Incidencia 2=Requerimento
 
 
-		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
-	
+		c=User.objects.get(pk=id).ticket_set.create(docfile =fileup,cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
+		print c
 		c.save()
 		
 		#return render(request, 'home.html', {'username':username,'form': form,'asunto':asunto,'ticket_pendiente':ticket_pendiente,'ticket_cerrado':ticket_cerrado,'grupo':grupo,'msj':msj})
@@ -68,6 +75,7 @@ def agregar_ticket(request):
 
 
 	noti = Notificaciones.objects.all().order_by('-id')[:8]
+
 	return render(request,'agregar_ticket.html', {'form_document':form_document,'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo,'grupo_flag':grupo_flag})
 
 
@@ -136,6 +144,7 @@ def realtime_post(request):
 
 
 def ticket_add(request):
+
 	id = request.user.id
 	ticket = Ticket.objects.filter(estado=1).order_by('-id')
 	x=User.objects.get(pk=id)
@@ -144,6 +153,8 @@ def ticket_add(request):
 	username = request.user.username
 	tipos=Tipo.objects.all()
 	estado_name=str('Nuevos')
+
+
 	
 
 
@@ -156,13 +167,16 @@ def ticket_add(request):
 		asunto = request.POST['asunto']
 		tipo = request.POST['tipo']
 		descripcion=request.POST['descripcion']
+
+		fileup = request.FILES['docfile']
 		
 		fecha_inicio = datetime.datetime.today()
 		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
 		#tipo 1=Incidencia 2=Requerimento
+        
 
 
-		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
+		c=User.objects.get(pk=id).ticket_set.create(docfile=fileup, cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
 	
 		c.save()
 
@@ -557,6 +571,7 @@ def list(request):
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
+
         if form.is_valid():
             newdoc = Document(docfile = request.FILES['docfile'])
             newdoc.save()

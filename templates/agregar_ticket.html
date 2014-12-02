@@ -13,7 +13,7 @@
 <div id='contenedor'>
 <div id='form'>
 Generar un Ticket
-<form action="/ticket_add/" method="post" class='ticket'>
+<form action="/ticket_add/" method="post" class='ticket' enctype="multipart/form-data">
     
     {% csrf_token %}
     
@@ -35,7 +35,7 @@ Generar un Ticket
     <p>{{ form_document.non_field_errors }}</p>
     <p>{{ form_document.docfile.label_tag }} {{ form_document.docfile.help_text }}</p>
     <p>
-        {{ form_documentdocfile.errors }}
+        {{ form_document.docfile.errors }}
         {{ form_document.docfile }}
     </p>
 
