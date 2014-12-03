@@ -35,7 +35,7 @@ class Ticket(models.Model):
 	fecha_fin = models.DateTimeField(null=True,blank=True)
 	validado = models.BooleanField(max_length=100,blank=True)
 	estado = models.ForeignKey(Estado)
-	docfile = models.FileField(upload_to='')
+	
 	comentario = models.CharField(max_length=100,blank=True)
 	def __str__(self):              # __unicode__ on Python 2
 		return self.asunto
@@ -48,7 +48,7 @@ class Soporte(models.Model):
 	fecha_inicio = models.DateTimeField()
 	fecha_fin= models.DateTimeField(null=True,blank=True)
 	soporte = models.ForeignKey(User,)
-	docfile = models.FileField(upload_to='')
+	
 	comentario = models.CharField(max_length=100,blank=True)
 	
 
@@ -63,7 +63,7 @@ class Evento(models.Model):
 	name = models.CharField(max_length=100,blank=True)
 	fecha_inicio = models.DateTimeField(null=True,blank=True)
 	comentario = models.CharField(max_length=100,blank=True)
-	docfile = models.FileField(upload_to='')
+
 	def __str__(self):              # __unicode__ on Python 2
 		return self.name
 
@@ -82,8 +82,15 @@ class Notificaciones(models.Model):
 
 
 class Document(models.Model):
-	docfile = models.FileField(upload_to='')
+	docfile = models.FileField(upload_to='/')
 
+class Archivo(models.Model):
+	id = models.AutoField(max_length=100,primary_key=True)
+	ticket = models.ForeignKey(Ticket)
+	docfile = models.FileField(upload_to='/')
+	asunto =models.CharField(max_length=100,blank=True)
+	user = models.ForeignKey(User,)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
 
 
 
