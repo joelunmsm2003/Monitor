@@ -1,11 +1,84 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Minimal Django File Upload Example</title>	
-	</head>
+{% include "layout.html" %}
+
+<body>
+
+{% include "header.html" %}
+
 
 	<body>
+
+
+
+		<div id='contenedor'>
+<div id='form'>
+	<form action="{% url "list" %}" method="post" enctype="multipart/form-data">
+
+
+	{% csrf_token %}
+
+
+	<label class='etiqueta'>Asunto :</label><div id='field'><input id="field" type="text" name="asunto" maxlength="100"></div>
+    <label class='etiqueta'>Tipo :</label><br>
+
+    <select name="tipo" id="tipo">
+    {% for tipos in tipos%}
+     <option value="{{tipos.id}}">{{tipos.name}}</option>
+	{% endfor %}
+    </select>
+
+    <br>
+    <label class='etiqueta'>Descripcion :</label><br>
+    <textarea id="field" name="descripcion" rows="10" cols="30"></textarea>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+			<p>
+				<!--{{ form.docfile.errors }}
+				{{ form.docfile }}
+				{{ form.docfile }}-->
+				<div class='file_upload'> Agregar mas archivos</div>
+				
+				<input type='text' name='cont' value='0' id='cont'>
+				<div id='files'></div>
+				
+			</p>
+			<p><input type="submit" value="Upload"  id="field1" /></p>
+		</form>
+
+</div>
+</div>
+
+<script type="text/javascript">
+	
+
+	i=0
+
+$( ".file_upload" ).click(function() {
+
+	i=i+1
+	x=i
+	console.log(i)
+
+	$("#files").append('<input type="file" id="file" name="docfile'+i+'"><div onclick="Eliminar('+i+')">Eliminar</div>')
+	
+
+	$("input#cont").val(i)
+
+});
+
+function Eliminar(i)
+{
+    
+    x = $("#cont").text()
+    console.log(x)
+    var d=document.getElementById('#file'.i)
+    console.log(d)
+}
+
+
+
+
+</script>
+
 		<!-- List of uploaded documents -->
 		{% if documents %}
 			<ul>
@@ -18,17 +91,8 @@
 		{% endif %}
 
 		<!-- Upload form. Note enctype attribute! -->
-		<form action="{% url "list" %}" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<p>{{ form.non_field_errors }}</p>
-			<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-			<p>
-				{{ form.docfile.errors }}
-				{{ form.docfile }}
-			</p>
-			<p><input type="submit" value="Upload" /></p>
-		</form>
 		
 	</body>
 
 </html> 
+

@@ -27,11 +27,13 @@ def agregar_ticket(request):
 
 	id = request.user.id
 
+
 	x=User.objects.get(pk=id)
 	grupo =x.groups.get()
 	username = request.user.username
 	tipos=Tipo.objects.all()
 	grupo= str(grupo)
+	documents = Archivo.objects.all()
 
 	
 	form = FormTicket()
@@ -40,7 +42,7 @@ def agregar_ticket(request):
 
 	noti = Notificaciones.objects.all().order_by('-id')[:8]
 
-	return render(request,'agregar_ticket.html', {'form_document':form_document,'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo})
+	return render(request,'agregar_ticket.html', {'documents':documents,'form_document':form_document,'noti':noti,'tipos':tipos,'form': form,'username':username,'grupo':grupo})
 
 
 def realtime(request):
@@ -119,6 +121,7 @@ def ticket_add(request):
 	estado_name=str('Nuevos')
 
 
+
 	if request.method == 'POST':
 
 
@@ -144,28 +147,11 @@ def ticket_add(request):
 
 		form = DocumentForm(request.POST, request.FILES)
 
-
-		'''
-		fileup = request.FILES['docfile']
-		fileup1 = request.FILES['docfile1']
-		fileup2 = request.FILES['docfile2']
-		fileup3 = request.FILES['docfile3']
-		fileup4 = request.FILES['docfile4']
+		
 		
 
-		g1=c.archivo_set.create(docfile=str(fileup),asunto='ticket nuevo',user_id=id,fecha_inicio=fecha_inicio)
-		g2=c.archivo_set.create(docfile=str(fileup1),asunto='ticket nuevo',user_id=id,fecha_inicio=fecha_inicio)
-		g3=c.archivo_set.create(docfile=str(fileup2),asunto='ticket nuevo',user_id=id,fecha_inicio=fecha_inicio)
-		g4=c.archivo_set.create(docfile=str(fileup3),asunto='ticket nuevo',user_id=id,fecha_inicio=fecha_inicio)
-		g5=c.archivo_set.create(docfile=str(fileup4),asunto='ticket nuevo',user_id=id,fecha_inicio=fecha_inicio)
-		
 
-		g1.save()
-		g2.save()
-		g3.save()
-		g4.save()
-		g5.save()
-		'''
+	
 
 		noti=c.notificaciones_set.create(name='Ticket nuevo -',fecha_inicio=fecha_inicio)
 		noti.save()
@@ -556,26 +542,68 @@ def ver_evento_all(request,id_ticket):
 
 def list(request):
     # Handle file upload
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            newdoc = Document(docfile = request.FILES['docfile'])
-            newdoc.save()
+	id = request.user.id
+	ticket = Ticket.objects.filter(estado=1).order_by('-id')
+	x=User.objects.get(pk=id)
+	grupo =x.groups.get()
+	grupo=str(grupo)
+	username = request.user.username
+	tipos=Tipo.objects.all()
+	estado_name=str('Nuevos')
 
+
+	
+	if request.method == 'POST':
+
+	
+		form = DocumentForm(request.POST, request.FILES)
+
+		username = request.user.username
+		asunto = request.POST['asunto']
+		tipo = request.POST['tipo']
+		descripcion=request.POST['descripcion']
+
+		fecha_inicio = datetime.datetime.today()
+		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
+		#tipo 1=Incidencia 2=Requerimento
+
+
+		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
+		
+		c.save()
+
+
+		noti=c.notificaciones_set.create(name='Ticket nuevo -',fecha_inicio=fecha_inicio)
+		noti.save()
+
+		ix = request.POST['cont']
+			
+		print int(ix)
+
+		
+
+		for i in range (1, int(ix)+1):
+		
+			
+			print request.FILES['docfile'+str(i)]
+
+			newdoc = Document(docfile = request.FILES['docfile'+str(i)],ticket_id=c.id)
+			newdoc.save()
+
+		
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('MonitorApp.views.list'))
-    else:
-        form = DocumentForm() # A empty, unbound form
+		return HttpResponseRedirect("/list")
+	else:
+		form = DocumentForm() # A empty, unbound form
 
     # Load documents for the list page
-    documents = Document.objects.all()
-
-    print documents
+	documents = Document.objects.all()
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
 
     # Render list page with the documents and the form
-    return render_to_response(
+	return render_to_response(
         'myapp/list.html',
-        {'documents': documents, 'form': form},
+        {'noti':noti,'tipos':tipos,'documents': documents, 'form': form,'username':username,'grupo':grupo},
         context_instance=RequestContext(request)
     )
