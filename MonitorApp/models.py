@@ -82,12 +82,17 @@ class Notificaciones(models.Model):
 
 
 class Document(models.Model):
-	docfile = models.FileField(upload_to='/')
+
+	id = models.AutoField(max_length=100,primary_key=True)
+	docfile = models.FileField(upload_to='/var/www/html/')
+	ticket = models.ForeignKey(Ticket)
+	fecha_inicio = models.DateTimeField(null=True,blank=True)
 
 class Archivo(models.Model):
+	
 	id = models.AutoField(max_length=100,primary_key=True)
 	ticket = models.ForeignKey(Ticket)
-	docfile = models.FileField(upload_to='/')
+	docfile = models.FileField(upload_to='/var/www/html')
 	asunto =models.CharField(max_length=100,blank=True)
 	user = models.ForeignKey(User,)
 	fecha_inicio = models.DateTimeField(null=True,blank=True)
