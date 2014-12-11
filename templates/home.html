@@ -41,7 +41,7 @@ Tickets {{estado_name}}
    
     <td>Estado</td>
     <td>Detalle</td>
-    
+    <td>Documentos</td>
     <td>Accion</td>
 
   </tr>
@@ -75,6 +75,8 @@ Tickets {{estado_name}}
 
 	<td width='10%'>{{ticket.estado}}</td>
 	<td width='10%'><a href='/detalle_ticket/{{ticket.id}}'>Mas detalle</a></td>
+	<td width='10%'><a href='/documentos/{{ticket.id}}'>Documentos</a></td>
+
 	{% if grupo == 'Soporte' %}
 		{% if estado_name == 'Nuevos' %}
 		<td width='10%'><a href='/atender/{{ticket.id}}'>Atender</a></td>

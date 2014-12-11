@@ -9,7 +9,7 @@
 
 
 
-		<div id='contenedor'>
+<div id='contenedor'>
 <div id='form'>
 	<form action="{% url "list" %}" method="post" enctype="multipart/form-data">
 
@@ -29,17 +29,18 @@
     <br>
     <label class='etiqueta'>Descripcion :</label><br>
     <textarea id="field" name="descripcion" rows="10" cols="30"></textarea>
-			<p>{{ form.non_field_errors }}</p>
+			<!--<p>{{ form.non_field_errors }}</p>
 			<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
 			<p>
-				<!--{{ form.docfile.errors }}
+				{{ form.docfile.errors }}
 				{{ form.docfile }}
 				{{ form.docfile }}-->
-				<div class='file_upload'> Agregar mas archivos</div>
+				<div class='file_upload'><a> Adjuntar Archivo</a></div>
 				
-				<input type='text' name='cont' value='0' id='cont'>
+				<input type='hidden' name='cont' value='0' id='cont'>
+				
 				<div id='files'></div>
-				
+				<br>
 			</p>
 			<p><input type="submit" value="Upload"  id="field1" /></p>
 		</form>
@@ -58,7 +59,7 @@ $( ".file_upload" ).click(function() {
 	x=i
 	console.log(i)
 
-	$("#files").append('<input type="file" id="file" name="docfile'+i+'"><div onclick="Eliminar('+i+')">Eliminar</div>')
+	$("#files").append('<input type="file" id="file" name="docfile'+i+'">')
 	
 
 	$("input#cont").val(i)
@@ -79,7 +80,7 @@ function Eliminar(i)
 
 </script>
 
-		<!-- List of uploaded documents -->
+		<!-- List of uploaded documents -
 		{% if documents %}
 			<ul>
 			{% for document in documents %}

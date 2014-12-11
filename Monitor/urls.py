@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 	url(r'^cerrar/(\d+)/$', 'MonitorApp.views.cerrar'),
 	url(r'^validar/(\d+)/$', 'MonitorApp.views.validar'),
 	url(r'^editar_ticket/(\d+)/$','MonitorApp.views.editar_ticket'),
-	url(r'^ticket_add/$', 'MonitorApp.views.ticket_add'),
+
 	url(r'^reasignar_add/', 'MonitorApp.views.reasignar_add'),
 	url(r'^atender/(\d+)/$','MonitorApp.views.atender'),
 	url(r'^evento_add/(\d+)/$','MonitorApp.views.evento_add'),
@@ -29,11 +29,13 @@ urlpatterns = patterns('',
 	url(r'^evento_add/', 'MonitorApp.views.evento_add'),
 	url(r'^ver_evento/(\d+)/(\d+)/$', 'MonitorApp.views.ver_evento'),
 	url(r'^realtime/$', 'MonitorApp.views.realtime'),
-	url(r'^agregar_ticket/$', 'MonitorApp.views.agregar_ticket'),
+
 	url(r'^ver_usuario/(\d+)/$', 'MonitorApp.views.ver_usuario'),
 	url(r'^notificaciones/$', 'MonitorApp.views.notificaciones'),
 	url(r'^ver_evento_all/(\d+)/$', 'MonitorApp.views.ver_evento_all'),
-	url(r'^list/$', 'MonitorApp.views.list', name='list'),
+	url(r'^agregar_ticket/$', 'MonitorApp.views.list', name='list'),
+	url(r'^list1/$', 'MonitorApp.views.list1', name='list1'),
+	url(r'^documentos/(\d+)/$', 'MonitorApp.views.documentos'),
 )
 
 

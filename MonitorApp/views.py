@@ -108,64 +108,6 @@ def realtime_post(request):
 	return HttpResponse(n)
 		
 
-
-def ticket_add(request):
-
-	id = request.user.id
-	ticket = Ticket.objects.filter(estado=1).order_by('-id')
-	x=User.objects.get(pk=id)
-	grupo =x.groups.get()
-	grupo=str(grupo)
-	username = request.user.username
-	tipos=Tipo.objects.all()
-	estado_name=str('Nuevos')
-
-
-
-	if request.method == 'POST':
-
-
-		form = FormTicket(request.POST)
-		
-		username = request.user.username
-		asunto = request.POST['asunto']
-		tipo = request.POST['tipo']
-		descripcion=request.POST['descripcion']
-
-
-
-		
-		fecha_inicio = datetime.datetime.today()
-		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
-		#tipo 1=Incidencia 2=Requerimento
-        
-        
-
-		c=User.objects.get(pk=id).ticket_set.create(cliente=username,asunto=asunto,tipo_id=1,descripcion=descripcion,fecha_inicio=fecha_inicio,validado=0,estado_id=1)
-		
-		c.save()
-
-		form = DocumentForm(request.POST, request.FILES)
-
-		
-		
-
-
-	
-
-		noti=c.notificaciones_set.create(name='Ticket nuevo -',fecha_inicio=fecha_inicio)
-		noti.save()
-
-
-		return HttpResponseRedirect("/ticket/1")
-	else:
-		form = FormTicket()
-
-
-
-	
-	return render(request, 'home.html', {'estado_name':estado_name,'tipos':tipos,'form': form,'username':username,'ticket':ticket,'grupo':grupo})
-
 def ticket(request,estado):
 
 	id = request.user.id
@@ -419,7 +361,6 @@ def detalle_ticket(request,id):
 	grupo= str(grupo)
 	estado= str(ticket.estado)
 
-	print estado
 
 	if grupo == 'Soporte':
 
@@ -490,7 +431,7 @@ def realtime_post_monitor(request):
 	if (str(counter) != str(counter_act)):
 
 
-		print 'entro'
+		
 		ticket_nuevo = Ticket.objects.all().order_by('-id')[:1]
 		data = serializers.serialize("json",ticket_nuevo)
 		data = { 'data' : data, 'n' : n }
@@ -579,21 +520,21 @@ def list(request):
 
 		ix = request.POST['cont']
 			
-		print int(ix)
+	
 
 		
 
 		for i in range (1, int(ix)+1):
 		
 			
-			print request.FILES['docfile'+str(i)]
+			
 
 			newdoc = Document(docfile = request.FILES['docfile'+str(i)],ticket_id=c.id)
 			newdoc.save()
 
 		
             # Redirect to the document list after POST
-		return HttpResponseRedirect("/list")
+		return HttpResponseRedirect("/ticket/1")
 	else:
 		form = DocumentForm() # A empty, unbound form
 
@@ -607,3 +548,54 @@ def list(request):
         {'noti':noti,'tipos':tipos,'documents': documents, 'form': form,'username':username,'grupo':grupo},
         context_instance=RequestContext(request)
     )
+
+def documentos(request,id_ticket):
+
+	ticket = Ticket.objects.get(id=id_ticket)
+	username = request.user.username
+	
+	noti = Notificaciones.objects.all().order_by('-id')[:8]
+	x=User.objects.get(username=username)
+	grupo =x.groups.get()
+	grupo= str(grupo)
+
+	documentos = Document.objects.filter(ticket=id_ticket)
+
+	cumentos = Document.objects.all()
+
+	
+
+	return render(request, 'documentos.html', {'documentos':documentos,'grupo':grupo,'noti':noti,'username':username,'ticket':ticket})
+
+
+def list1(request):
+
+	if request.method == 'POST':
+
+	
+		form = DocumentForm(request.POST, request.FILES)
+		ticket = request.POST['ticket']
+		print ticket
+		username = request.user.username
+		c= Ticket.objects.get(id=ticket)
+
+		fecha_inicio = datetime.datetime.today()
+		#estado 1=Nuevo	2=Atendido 3=Prueba 4=Cerrado
+		#tipo 1=Incidencia 2=Requerimento
+
+
+		noti=c.notificaciones_set.create(name='Archivo nuevo -',fecha_inicio=fecha_inicio)
+		noti.save()
+
+		ix = request.POST['cont']
+			
+
+		for i in range (1, int(ix)+1):
+		
+			newdoc = Document(docfile = request.FILES['docfile'+str(i)],ticket_id=c.id)
+			newdoc.save()
+
+		
+            # Redirect to the document list after POST
+		return HttpResponseRedirect("/documentos/"+str(ticket))
+	

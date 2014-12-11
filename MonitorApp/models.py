@@ -92,7 +92,7 @@ class Archivo(models.Model):
 	
 	id = models.AutoField(max_length=100,primary_key=True)
 	ticket = models.ForeignKey(Ticket)
-	docfile = models.FileField(upload_to='/var/www/html')
+	docfile = models.FileField(upload_to='/')
 	asunto =models.CharField(max_length=100,blank=True)
 	user = models.ForeignKey(User,)
 	fecha_inicio = models.DateTimeField(null=True,blank=True)
