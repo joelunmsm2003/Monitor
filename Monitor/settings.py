@@ -30,18 +30,18 @@ PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, '../templates'),)
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, '/')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '/var/www/html/')
 
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
-MEDIA_URL = '/'
+MEDIA_URL = '/var/www/html/'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'monitor',
-        'USER': 'root',
-        'PASSWORD': '123',
+        'USER': 'byte',
+        'PASSWORD': 'byte',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
