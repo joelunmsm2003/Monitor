@@ -394,6 +394,14 @@ def evento_add(request):
 		name = request.POST['name']
 		fecha_inicio = datetime.datetime.today()
 
+		ix = request.POST['cont']		
+
+		for i in range (1, int(ix)+1):
+		
+			newdoc = Document(docfile = request.FILES['docfile'+str(i)],ticket_id=evento_id)
+			newdoc.save()
+
+		
 		soporte = Soporte.objects.get(id=soporte_id)
 		soporte.evento_set.create(fecha_inicio=fecha_inicio,name=name,user_id=user)
 
@@ -518,17 +526,10 @@ def list(request):
 		noti=c.notificaciones_set.create(name='Ticket nuevo -',fecha_inicio=fecha_inicio)
 		noti.save()
 
-		ix = request.POST['cont']
-			
-	
-
-		
+		ix = request.POST['cont']		
 
 		for i in range (1, int(ix)+1):
 		
-			
-			
-
 			newdoc = Document(docfile = request.FILES['docfile'+str(i)],ticket_id=c.id)
 			newdoc.save()
 

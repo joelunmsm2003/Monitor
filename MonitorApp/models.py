@@ -86,6 +86,8 @@ class Document(models.Model):
 	id = models.AutoField(max_length=100,primary_key=True)
 	docfile = models.FileField(upload_to='files')
 	ticket = models.ForeignKey(Ticket)
+	user = models.ForeignKey(User,)
+	asunto = models.CharField(max_length=100,blank=True)
 	fecha_inicio = models.DateTimeField(null=True,blank=True)
 
 class Archivo(models.Model):
